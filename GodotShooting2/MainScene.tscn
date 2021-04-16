@@ -30,9 +30,12 @@ texture = ExtResource( 2 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Fighter"]
 shape = SubResource( 1 )
 
-[node name="TextureRect" type="TextureRect" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+margin_right = 500.0
+margin_bottom = 800.0
 texture = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
