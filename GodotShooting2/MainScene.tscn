@@ -75,3 +75,11 @@ texture_normal = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Sprite1" type="Sprite" parent="CanvasLayer"]
+position = Vector2( 60, 680 )
+texture = ExtResource( 2 )
+
+[node name="Sprite2" type="Sprite" parent="CanvasLayer"]
+position = Vector2( 124, 680 )
+texture = ExtResource( 2 )
