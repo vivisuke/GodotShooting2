@@ -1,3 +1,21 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://images/frame.png" type="Texture" id=1]
 
 [node name="MainScene" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 500.0
+margin_bottom = 800.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
