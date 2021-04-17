@@ -33,7 +33,7 @@ func setup_enemies():
 	nEnemies = ENEMY_N_HORZ * ENEMY_N_VERT
 	enemies.resize(ENEMY_N_HORZ * ENEMY_N_VERT)
 	for y in range(ENEMY_N_VERT):
-		var py = y * ENEMY_V_PITCH + ENEMY_Y0
+		var py = (ENEMY_N_VERT - 1 - y) * ENEMY_V_PITCH + ENEMY_Y0
 		for x in range(ENEMY_N_HORZ):
 			var px = x * ENEMY_H_PITCH + ENEMY_X0
 			var enemy = Enemy1.instance()
