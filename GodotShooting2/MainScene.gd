@@ -31,7 +31,12 @@ func setup_enemies():
 			enemy.position = Vector2(px, py)
 			add_child(enemy)
 			enemies[x+y*ENEMY_N_HORZ] = enemy
-
+func remove_enemy(ptr):
+	for ix in range(enemies.size()):
+		if enemies[ix] == ptr:
+			enemies[ix] = null
+			return
+	pass
 func _ready():
 	setup_enemies()
 	pass # Replace with function body.
@@ -60,6 +65,7 @@ func _physics_process(delta):
 			if bc != null:		# 敵機に当たった場合
 				missile.queue_free()
 				missile = null
+				remove_enemy(bc.collider)
 				bc.collider.queue_free()
 		pass
 	else:
