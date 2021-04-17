@@ -18,8 +18,11 @@ var Enemy1 = load("res://Enemy1.tscn")
 
 var missile = null
 var mv = Vector2(0, MISSILE_DY)
+var dur = 0.0
+var enemies = []
 
 func setup_enemies():
+	enemies.resize(ENEMY_N_HORZ * ENEMY_N_VERT)
 	for y in range(ENEMY_N_VERT):
 		var py = y * ENEMY_V_PITCH + ENEMY_Y0
 		for x in range(ENEMY_N_HORZ):
@@ -27,12 +30,26 @@ func setup_enemies():
 			var enemy = Enemy1.instance()
 			enemy.position = Vector2(px, py)
 			add_child(enemy)
+			enemies[x+y*ENEMY_N_HORZ] = enemy
 
 func _ready():
 	setup_enemies()
 	pass # Replace with function body.
 
 func _physics_process(delta):
+	dur += delta
+	if dur >= 1.0:
+		dur = 0.0
+		for y in range(ENEMY_N_VERT):
+			for x in range(ENEMY_N_HORZ):
+				var ix = x+y*ENEMY_N_HORZ
+				if enemies[ix] != null:
+					var node = enemies[ix].get_node("Sprite")
+					#var fr : int = node.frame
+					#fr ^= 1
+					#print(node.frame)
+					node.frame ^= 1
+					#print(node.frame)
 	if missile != null:
 		if missile.position.y < 0:	# 画面上部に出た場合
 			missile.queue_free()
