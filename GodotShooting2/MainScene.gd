@@ -39,6 +39,7 @@ func setup_enemies():
 			var px = x * ENEMY_H_PITCH + ENEMY_X0
 			var enemy = Enemy1.instance()
 			enemy.position = Vector2(px, py)
+			enemy.get_node("Sprite").frame = y & 0x1e
 			add_child(enemy)
 			enemies[x+y*ENEMY_N_HORZ] = enemy
 func remove_enemy(ptr):

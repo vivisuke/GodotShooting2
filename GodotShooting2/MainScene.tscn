@@ -9,10 +9,10 @@
 [ext_resource path="res://sounds/missile.ogg" type="AudioStream" id=7]
 [ext_resource path="res://sounds/explosion-3.ogg" type="AudioStream" id=8]
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 400 )
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 32, 16 )
 
 [node name="MainScene" type="Node2D"]
@@ -33,7 +33,7 @@ __meta__ = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 
 [node name="RightWall" type="StaticBody2D" parent="."]
 position = Vector2( 484, 400 )
@@ -42,7 +42,7 @@ __meta__ = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall"]
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 
 [node name="Fighter" type="KinematicBody2D" parent="."]
 position = Vector2( 250, 620 )
@@ -54,7 +54,7 @@ __meta__ = {
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Fighter"]
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 2
