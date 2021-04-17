@@ -12,13 +12,19 @@ const ENEMY_H_PITCH = 48
 const ENEMY_V_PITCH = 48
 const ENEMY_N_HORZ = 8
 const ENEMY_N_VERT = 5
+const ENEMY_LR_SPC = 48
+const MIN_ENEMY_X = ENEMY_LR_SPC
+const MAX_ENEMY_X = SCREEN_WIDTH - ENEMY_LR_SPC
 
 var Missile = load("res://Missile.tscn")
 var Enemy1 = load("res://Enemy1.tscn")
 
 var missile = null
 var mv = Vector2(0, MISSILE_DY)
-var dur = 0.0
+var dur = 0.0		# for 敵アニメーション
+var dur2 = 0.0		# for 敵移動
+var mv_ix = 0
+var move_right : bool = false
 var enemies = []
 
 func setup_enemies():
@@ -37,6 +43,13 @@ func remove_enemy(ptr):
 			enemies[ix] = null
 			return
 	pass
+func next_enemy(ix):
+	while true:
+		ix += 1
+		if ix == ENEMY_N_HORZ * ENEMY_N_VERT:
+			ix = 0
+		if enemies[ix] != null:
+			return ix
 func _ready():
 	setup_enemies()
 	pass # Replace with function body.
@@ -55,6 +68,19 @@ func _physics_process(delta):
 					#print(node.frame)
 					node.frame ^= 1
 					#print(node.frame)
+	dur2 += delta
+	if dur >= 0.1:
+		dur2 = 0
+		if move_right:
+			enemies[mv_ix].position.x += 2
+			if enemies[mv_ix].position.x >= MAX_ENEMY_X:
+				move_right = false;
+			mv_ix = next_enemy(mv_ix)
+		else:
+			enemies[mv_ix].position.x -= 2
+			if enemies[mv_ix].position.x <= MIN_ENEMY_X:
+				move_right = true;
+			mv_ix = next_enemy(mv_ix)
 	if missile != null:
 		if missile.position.y < 0:	# 画面上部に出た場合
 			missile.queue_free()
