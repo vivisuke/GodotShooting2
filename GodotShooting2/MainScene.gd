@@ -68,7 +68,14 @@ func next_enemy(ix):
 func _ready():
 	setup_enemies()
 	pass # Replace with function body.
-
+func fireMissile():
+	if missile == null:
+		missile = Missile.instance()
+		missile.position = $Fighter.position
+		#print(missile.position)
+		#bullet.position.x += 6
+		add_child(missile)
+		$AudioMissile.play()
 func _physics_process(delta):
 	dur += delta
 	if dur >= 1.0:
@@ -115,12 +122,7 @@ func _physics_process(delta):
 		pass
 	else:
 		if Input.is_action_pressed("ui_accept"):
-			missile = Missile.instance()
-			missile.position = $Fighter.position
-			#print(missile.position)
-			#bullet.position.x += 6
-			add_child(missile)
-			$AudioMissile.play()
+			fireMissile()
 	var dx = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
 	if dx == 0:
 		dx = int(rightPressed) - int(leftPressed)
@@ -138,3 +140,5 @@ func _on_RightButton_button_down():
 	rightPressed = true
 func _on_RightButton_button_up():
 	rightPressed = false
+func _on_FireButton_pressed():
+	fireMissile()
