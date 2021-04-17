@@ -107,6 +107,8 @@ func _physics_process(delta):
 				missile = null
 				remove_enemy(bc.collider)
 				bc.collider.queue_free()
+				$AudioMissile.stop()
+				$AudioExplosion.play()
 		pass
 	else:
 		if Input.is_action_pressed("ui_accept"):
@@ -115,6 +117,7 @@ func _physics_process(delta):
 			#print(missile.position)
 			#bullet.position.x += 6
 			add_child(missile)
+			$AudioMissile.play()
 	var dx = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
 	if dx != 0:
 		$Fighter.position.x += dx * MOVE_UNIT * delta

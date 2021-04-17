@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/cannon-2.ogg-f4d865d69762302f6c6da2516da6aeda.oggstr"
+
+[deps]
+
+source_file="res://sounds/cannon-2.ogg"
+dest_files=[ "res://.import/cannon-2.ogg-f4d865d69762302f6c6da2516da6aeda.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
