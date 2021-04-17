@@ -6,13 +6,30 @@ const FIGHTER_LR_SPC = 64
 const MIN_FIGHTER_X = FIGHTER_LR_SPC
 const MAX_FIGHTER_X = SCREEN_WIDTH - FIGHTER_LR_SPC
 const MISSILE_DY = -10
+const ENEMY_X0 = 64
+const ENEMY_Y0 = 200
+const ENEMY_H_PITCH = 48
+const ENEMY_V_PITCH = 48
+const ENEMY_N_HORZ = 8
+const ENEMY_N_VERT = 5
 
 var Missile = load("res://Missile.tscn")
+var Enemy1 = load("res://Enemy1.tscn")
 
 var missile = null
 var mv = Vector2(0, MISSILE_DY)
 
+func setup_enemies():
+	for y in range(ENEMY_N_VERT):
+		var py = y * ENEMY_V_PITCH + ENEMY_Y0
+		for x in range(ENEMY_N_HORZ):
+			var px = x * ENEMY_H_PITCH + ENEMY_X0
+			var enemy = Enemy1.instance()
+			enemy.position = Vector2(px, py)
+			add_child(enemy)
+
 func _ready():
+	setup_enemies()
 	pass # Replace with function body.
 
 func _physics_process(delta):
