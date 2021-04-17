@@ -25,9 +25,12 @@ var dur = 0.0		# for 敵アニメーション
 var dur2 = 0.0		# for 敵移動
 var mv_ix = 0
 var move_right : bool = false
+var en_collied : bool = false
 var enemies = []
+var nEnemies = 0
 
 func setup_enemies():
+	nEnemies = ENEMY_N_HORZ * ENEMY_N_VERT
 	enemies.resize(ENEMY_N_HORZ * ENEMY_N_VERT)
 	for y in range(ENEMY_N_VERT):
 		var py = y * ENEMY_V_PITCH + ENEMY_Y0
@@ -41,15 +44,20 @@ func remove_enemy(ptr):
 	for ix in range(enemies.size()):
 		if enemies[ix] == ptr:
 			enemies[ix] = null
+			nEnemies -= 1
 			return
 	pass
 func next_enemy(ix):
-	while true:
+	while nEnemies != 0:
 		ix += 1
 		if ix == ENEMY_N_HORZ * ENEMY_N_VERT:
+			if en_collied:
+				en_collied = false
+				move_right = !move_right
 			ix = 0
 		if enemies[ix] != null:
-			return ix
+			break
+	return ix
 func _ready():
 	setup_enemies()
 	pass # Replace with function body.
@@ -71,23 +79,23 @@ func _physics_process(delta):
 	dur2 += delta
 	if dur >= 0.1:
 		dur2 = 0
-		if move_right:
-			enemies[mv_ix].position.x += 2
-			if enemies[mv_ix].position.x >= MAX_ENEMY_X:
-				move_right = false;
-			mv_ix = next_enemy(mv_ix)
-		else:
-			enemies[mv_ix].position.x -= 2
-			if enemies[mv_ix].position.x <= MIN_ENEMY_X:
-				move_right = true;
-			mv_ix = next_enemy(mv_ix)
+		if enemies[mv_ix] != null:
+			if move_right:
+				enemies[mv_ix].position.x += 2
+				if enemies[mv_ix].position.x >= MAX_ENEMY_X:
+					en_collied = true;
+			else:
+				enemies[mv_ix].position.x -= 2
+				if enemies[mv_ix].position.x <= MIN_ENEMY_X:
+					en_collied = true;
+		mv_ix = next_enemy(mv_ix)
 	if missile != null:
 		if missile.position.y < 0:	# 画面上部に出た場合
 			missile.queue_free()
 			missile = null
 		else:
 			var bc = missile.move_and_collide(mv)
-			print(bc)
+			#print(bc)
 			if bc != null:		# 敵機に当たった場合
 				missile.queue_free()
 				missile = null
