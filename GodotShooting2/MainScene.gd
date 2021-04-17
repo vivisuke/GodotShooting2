@@ -29,6 +29,8 @@ var move_right : bool = false
 var en_collied : bool = false
 var enemies = []
 var nEnemies = 0
+var leftPressed : bool = false
+var rightPressed : bool = false
 
 func setup_enemies():
 	nEnemies = ENEMY_N_HORZ * ENEMY_N_VERT
@@ -120,7 +122,19 @@ func _physics_process(delta):
 			add_child(missile)
 			$AudioMissile.play()
 	var dx = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
+	if dx == 0:
+		dx = int(rightPressed) - int(leftPressed)
 	if dx != 0:
 		$Fighter.position.x += dx * MOVE_UNIT * delta
 		$Fighter.position.x = max($Fighter.position.x, MIN_FIGHTER_X)
 		$Fighter.position.x = min($Fighter.position.x, MAX_FIGHTER_X)
+
+
+func _on_LeftButton_button_down():
+	leftPressed = true
+func _on_LeftButton_button_up():
+	leftPressed = false
+func _on_RightButton_button_down():
+	rightPressed = true
+func _on_RightButton_button_up():
+	rightPressed = false

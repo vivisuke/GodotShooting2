@@ -112,3 +112,7 @@ stream = ExtResource( 7 )
 
 [node name="AudioExplosion" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 8 )
+[connection signal="button_down" from="CanvasLayer/LeftButton" to="." method="_on_LeftButton_button_down"]
+[connection signal="button_up" from="CanvasLayer/LeftButton" to="." method="_on_LeftButton_button_up"]
+[connection signal="button_down" from="CanvasLayer/RightButton" to="." method="_on_RightButton_button_down"]
+[connection signal="button_up" from="CanvasLayer/RightButton" to="." method="_on_RightButton_button_up"]
