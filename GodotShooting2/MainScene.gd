@@ -24,6 +24,7 @@ var mv = Vector2(0, MISSILE_DY)
 var dur = 0.0		# for 敵アニメーション
 var dur2 = 0.0		# for 敵移動
 var mv_ix = 0
+var move_down : bool = false
 var move_right : bool = false
 var en_collied : bool = false
 var enemies = []
@@ -51,9 +52,12 @@ func next_enemy(ix):
 	while nEnemies != 0:
 		ix += 1
 		if ix == ENEMY_N_HORZ * ENEMY_N_VERT:
-			if en_collied:
+			if move_down:
+				move_down = false
+			elif en_collied:
 				en_collied = false
 				move_right = !move_right
+				move_down = true
 			ix = 0
 		if enemies[ix] != null:
 			break
@@ -80,7 +84,9 @@ func _physics_process(delta):
 	if dur >= 0.1:
 		dur2 = 0
 		if enemies[mv_ix] != null:
-			if move_right:
+			if move_down:
+				enemies[mv_ix].position.y += ENEMY_V_PITCH / 2
+			elif move_right:
 				enemies[mv_ix].position.x += 2
 				if enemies[mv_ix].position.x >= MAX_ENEMY_X:
 					en_collied = true;
