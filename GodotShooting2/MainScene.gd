@@ -15,20 +15,25 @@ const ENEMY_N_VERT = 5
 const ENEMY_LR_SPC = 48
 const MIN_ENEMY_X = ENEMY_LR_SPC
 const MAX_ENEMY_X = SCREEN_WIDTH - ENEMY_LR_SPC
+const ENEMY_MISSILE_DY = 5
 
 var Missile = load("res://Missile.tscn")
 var Enemy1 = load("res://Enemy1.tscn")
+var EnemyMissile = load("res://EnemyMissile.tscn")
 
 var missile = null
 var mv = Vector2(0, MISSILE_DY)
+var emv = Vector2(0, ENEMY_MISSILE_DY)
 var dur = 0.0		# for 敵アニメーション
 var dur2 = 0.0		# for 敵移動
+var dur_em = 0.0	# for 敵ミサイル発射
 var mv_ix = 0
 var move_down : bool = false
 var move_right : bool = false
 var en_collied : bool = false
 var enemies = []
 var nEnemies = 0
+var enemyMissiles = []
 var leftPressed : bool = false
 var rightPressed : bool = false
 
@@ -44,6 +49,22 @@ func setup_enemies():
 			enemy.get_node("Sprite").frame = y & 0x1e
 			add_child(enemy)
 			enemies[x+y*ENEMY_N_HORZ] = enemy
+func fireEnemyMissile():
+	var r = randi() % nEnemies
+	var ix = 0
+	while r != 0:
+		if enemies[ix] != null:
+			ix += 1
+			r -= 1
+	var em = EnemyMissile.instance()
+	em.position = enemies[ix].position
+	add_child(em)
+	enemyMissiles.push_back(em)
+	pass
+func processEnemyMissiles():
+	for em in enemyMissiles:
+		var bc = em.move_and_collide(emv)		
+	pass
 func remove_enemy(ptr):
 	for ix in range(enemies.size()):
 		if enemies[ix] == ptr:
@@ -66,7 +87,9 @@ func next_enemy(ix):
 			break
 	return ix
 func _ready():
+	randomize()
 	setup_enemies()
+	#fireEnemyMissile()
 	pass # Replace with function body.
 func fireMissile():
 	if missile == null:
@@ -105,6 +128,10 @@ func _physics_process(delta):
 				if enemies[mv_ix].position.x <= MIN_ENEMY_X:
 					en_collied = true;
 		mv_ix = next_enemy(mv_ix)
+	dur_em += delta
+	if dur_em >= 1.0:
+		dur_em = 0
+		fireEnemyMissile()
 	if missile != null:
 		if missile.position.y < 0:	# 画面上部に出た場合
 			missile.queue_free()
@@ -130,7 +157,7 @@ func _physics_process(delta):
 		$Fighter.position.x += dx * MOVE_UNIT * delta
 		$Fighter.position.x = max($Fighter.position.x, MIN_FIGHTER_X)
 		$Fighter.position.x = min($Fighter.position.x, MAX_FIGHTER_X)
-
+	processEnemyMissiles()	
 
 func _on_LeftButton_button_down():
 	leftPressed = true
