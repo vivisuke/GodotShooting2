@@ -21,6 +21,7 @@ var Missile = load("res://Missile.tscn")
 var Enemy1 = load("res://Enemy1.tscn")
 var EnemyMissile = load("res://EnemyMissile.tscn")
 
+var score = 0
 var missile = null
 var mv = Vector2(0, MISSILE_DY)
 var emv = Vector2(0, ENEMY_MISSILE_DY)
@@ -68,10 +69,15 @@ func processEnemyMissiles():
 func remove_enemy(ptr):
 	for ix in range(enemies.size()):
 		if enemies[ix] == ptr:
+			var pnt = floor(ix / (ENEMY_N_HORZ*2)) + 1
+			score += pnt * 10
 			enemies[ix] = null
 			nEnemies -= 1
 			return
 	pass
+func updateScoreLabel():
+	var txt = "%05d" % score
+	$CanvasLayer/Score.text = txt
 func next_enemy(ix):
 	while nEnemies != 0:
 		ix += 1
@@ -143,6 +149,7 @@ func _physics_process(delta):
 				missile.queue_free()
 				missile = null
 				remove_enemy(bc.collider)
+				updateScoreLabel()
 				bc.collider.queue_free()
 				$AudioMissile.stop()
 				$AudioExplosion.play()
