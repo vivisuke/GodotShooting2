@@ -105,11 +105,11 @@ __meta__ = {
 }
 
 [node name="Sprite1" type="Sprite" parent="CanvasLayer"]
-position = Vector2( 60, 680 )
+position = Vector2( 100, 680 )
 texture = ExtResource( 2 )
 
 [node name="Sprite2" type="Sprite" parent="CanvasLayer"]
-position = Vector2( 124, 680 )
+position = Vector2( 164, 680 )
 texture = ExtResource( 2 )
 
 [node name="Label" type="Label" parent="CanvasLayer"]
@@ -130,6 +130,17 @@ margin_right = 441.433
 margin_bottom = 85.4086
 custom_fonts/font = SubResource( 3 )
 text = "00000"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="nFighter" type="Label" parent="CanvasLayer"]
+margin_left = 40.0
+margin_top = 660.0
+margin_right = 69.0
+margin_bottom = 696.0
+custom_fonts/font = SubResource( 3 )
+text = "3"
 __meta__ = {
 "_edit_use_anchors_": false
 }
