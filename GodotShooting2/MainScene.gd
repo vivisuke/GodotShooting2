@@ -54,9 +54,9 @@ func fireEnemyMissile():
 	var r = randi() % nEnemies
 	var ix = 0
 	while r != 0:
-		if enemies[ix] != null:
-			r -= 1
-		ix += 1
+		while enemies[ix] == null:
+			ix += 1
+		r -= 1
 	if enemies[ix] != null:
 		var em = EnemyMissile.instance()
 		em.position = enemies[ix].position
