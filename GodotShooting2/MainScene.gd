@@ -70,6 +70,8 @@ func fireEnemyMissile():
 	pass
 func updateLeftFighter():
 	$CanvasLayer/nFighter.text = "%d" % nFighter
+	$CanvasLayer/Sprite1.set_visible(nFighter>1)
+	$CanvasLayer/Sprite2.set_visible(nFighter>2)
 	pass
 func processEnemyMissiles():
 	var ix = 0
