@@ -21,6 +21,8 @@ var Missile = load("res://Missile.tscn")
 var Enemy1 = load("res://Enemy1.tscn")
 var EnemyMissile = load("res://EnemyMissile.tscn")
 
+var gameOver = false
+var nFighter = 3
 var score = 0
 var missile = null
 var mv = Vector2(0, MISSILE_DY)
@@ -53,9 +55,12 @@ func setup_enemies():
 func fireEnemyMissile():
 	var r = randi() % nEnemies
 	var ix = 0
-	while r != 0:
+	while true:
 		while enemies[ix] == null:
 			ix += 1
+		if r == 0:
+			break
+		ix += 1
 		r -= 1
 	if enemies[ix] != null:
 		var em = EnemyMissile.instance()
@@ -63,9 +68,23 @@ func fireEnemyMissile():
 		add_child(em)
 		enemyMissiles.push_back(em)
 	pass
+func updateLeftFighter():
+	$CanvasLayer/nFighter.text = "%d" % nFighter
+	pass
 func processEnemyMissiles():
+	var ix = 0
 	for em in enemyMissiles:
-		var bc = em.move_and_collide(emv)		
+		if em != null:
+			var bc = em.move_and_collide(emv)
+			if bc != null:
+				if bc.collider == $Fighter:		# 自機に命中
+					em.queue_free()
+					enemyMissiles[ix] = null
+					nFighter -= 1
+					if nFighter == 0:
+						gameOver = true
+					updateLeftFighter()
+		ix += 1
 	pass
 func remove_enemy(ptr):		# 撃墜した敵機を削除
 	for ix in range(enemies.size()):
@@ -107,6 +126,8 @@ func fireMissile():
 		add_child(missile)
 		$AudioMissile.play()
 func _physics_process(delta):
+	if gameOver:
+		return
 	dur += delta
 	if dur >= 1.0:
 		dur = 0.0
