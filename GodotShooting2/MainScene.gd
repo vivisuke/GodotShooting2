@@ -127,44 +127,32 @@ func fireMissile():
 		#bullet.position.x += 6
 		add_child(missile)
 		$AudioMissile.play()
-func _physics_process(delta):
-	if gameOver:
-		return
-	dur += delta
-	if dur >= 1.0:
-		dur = 0.0
-		# 敵アニメーション処理
-		for y in range(ENEMY_N_VERT):
-			for x in range(ENEMY_N_HORZ):
-				var ix = x+y*ENEMY_N_HORZ
-				if enemies[ix] != null:
-					var node = enemies[ix].get_node("Sprite")
-					#var fr : int = node.frame
-					#fr ^= 1
-					#print(node.frame)
-					node.frame ^= 1
-					#print(node.frame)
-	dur2 += delta
-	if dur >= 0.1:
-		dur2 = 0
-		# 敵移動処理
-		if enemies[mv_ix] != null:
-			if move_down:
-				enemies[mv_ix].position.y += ENEMY_V_PITCH / 2
-			elif move_right:
-				enemies[mv_ix].position.x += 2
-				if enemies[mv_ix].position.x >= MAX_ENEMY_X:
-					en_collied = true;
-			else:
-				enemies[mv_ix].position.x -= 2
-				if enemies[mv_ix].position.x <= MIN_ENEMY_X:
-					en_collied = true;
-		mv_ix = next_enemy(mv_ix)
-	dur_em += delta
-	if dur_em >= 1.0:
-		dur_em = 0
-		fireEnemyMissile()		# 敵ミサイル発射
-	if missile != null:		# 自機ミサイル飛翔中
+func animateEnemies():	# 敵アニメーション処理
+	for y in range(ENEMY_N_VERT):
+		for x in range(ENEMY_N_HORZ):
+			var ix = x+y*ENEMY_N_HORZ
+			if enemies[ix] != null:
+				var node = enemies[ix].get_node("Sprite")
+				#var fr : int = node.frame
+				#fr ^= 1
+				#print(node.frame)
+				node.frame ^= 1
+				#print(node.frame)
+func moveEnemies():		# 敵移動処理
+	if enemies[mv_ix] != null:
+		if move_down:
+			enemies[mv_ix].position.y += ENEMY_V_PITCH / 2
+		elif move_right:
+			enemies[mv_ix].position.x += 2
+			if enemies[mv_ix].position.x >= MAX_ENEMY_X:
+				en_collied = true;
+		else:
+			enemies[mv_ix].position.x -= 2
+			if enemies[mv_ix].position.x <= MIN_ENEMY_X:
+				en_collied = true;
+	mv_ix = next_enemy(mv_ix)
+func processMissile():
+	if missile != null:
 		if missile.position.y < 0:	# 画面上部に出た場合
 			missile.queue_free()
 			missile = null
@@ -179,7 +167,23 @@ func _physics_process(delta):
 				$AudioMissile.stop()		# ミサイル発射音停止
 				$AudioExplosion.play()		# 爆発音
 				updateScoreLabel()
-		pass
+func _physics_process(delta):
+	if gameOver:
+		return
+	dur += delta
+	if dur >= 1.0:
+		dur = 0.0
+		animateEnemies()
+	dur2 += delta
+	if dur >= 0.1:
+		dur2 = 0
+		moveEnemies()
+	dur_em += delta
+	if dur_em >= 1.0:
+		dur_em = 0
+		fireEnemyMissile()		# 敵ミサイル発射
+	if missile != null:		# 自機ミサイル飛翔中
+		processMissile()
 	else:
 		if Input.is_action_pressed("ui_accept"):
 			fireMissile()
