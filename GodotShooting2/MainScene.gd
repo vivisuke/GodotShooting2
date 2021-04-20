@@ -24,6 +24,8 @@ var EnemyMissile = load("res://EnemyMissile.tscn")
 var gameOver = false
 var nFighter = 3
 var score = 0
+var autoMoving : bool = false		# 自機自動移動中
+var autoMoveX = 0					# 自機自動移動先座標
 var missile = null
 var mv = Vector2(0, MISSILE_DY)
 var emv = Vector2(0, ENEMY_MISSILE_DY)
@@ -185,17 +187,32 @@ func _physics_process(delta):
 	if missile != null:		# 自機ミサイル飛翔中
 		processMissile()
 	else:
-		if Input.is_action_pressed("ui_accept"):
-			fireMissile()
+		if (Input.is_action_pressed("ui_accept") ||
+			autoMoving && abs($Fighter.position.x - autoMoveX) <= 2):
+				autoMoving = false
+				fireMissile()
 	var dx = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
 	if dx == 0:
 		dx = int(rightPressed) - int(leftPressed)
+	if dx != 0:
+		autoMoving = false
+	elif autoMoving:
+		dx = 1 if ($Fighter.position.x < autoMoveX) else -1
+		print($Fighter.position.x, ", ", autoMoveX, ", ", dx)
 	if dx != 0:
 		$Fighter.position.x += dx * MOVE_UNIT * delta
 		$Fighter.position.x = max($Fighter.position.x, MIN_FIGHTER_X)
 		$Fighter.position.x = min($Fighter.position.x, MAX_FIGHTER_X)
 	processEnemyMissiles()		# 敵ミサイル処理
-
+func _input(event):
+	if event is InputEventMouseButton && event.pressed:
+		if (event.position.x >= 32 && event.position.x < SCREEN_WIDTH - 32 &&
+			event.position.y >= 95 && event.position.y < 640):
+				#print(event.position)
+				autoMoving = true
+				autoMoveX = event.position.x
+				print("autoMovex = ", autoMoveX)
+	pass
 func _on_LeftButton_button_down():
 	leftPressed = true
 func _on_LeftButton_button_up():
