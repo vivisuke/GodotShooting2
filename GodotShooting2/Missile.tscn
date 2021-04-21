@@ -7,7 +7,7 @@ extents = Vector2( 2, 8 )
 
 [node name="Missile" type="KinematicBody2D"]
 collision_layer = 2
-collision_mask = 4
+collision_mask = 1028
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )

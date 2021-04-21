@@ -82,12 +82,14 @@ func processEnemyMissiles():
 			var bc = em.move_and_collide(emv)
 			if bc != null:
 				if bc.collider == $Fighter:		# 自機に命中
-					em.queue_free()
-					enemyMissiles[ix] = null
 					nFighter -= 1
 					if nFighter == 0:
 						gameOver = true
 					updateLeftFighter()
+				else:
+					bc.collider.queue_free()
+				em.queue_free()
+				enemyMissiles[ix] = null
 			elif em.position.y >= 700:
 				em.queue_free()
 				enemyMissiles[ix] = null
@@ -193,7 +195,7 @@ func _physics_process(delta):
 		if (Input.is_action_pressed("ui_accept") ||
 			autoMoving && abs($Fighter.position.x - autoMoveX) <= 2):
 				autoMoving = false
-				fireMissile()
+				fireMissile()		# 敵ミサイル発射
 	var dx = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
 	if dx == 0:
 		dx = int(rightPressed) - int(leftPressed)
