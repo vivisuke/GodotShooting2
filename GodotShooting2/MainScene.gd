@@ -88,6 +88,9 @@ func processEnemyMissiles():
 					if nFighter == 0:
 						gameOver = true
 					updateLeftFighter()
+			elif em.position.y >= 700:
+				em.queue_free()
+				enemyMissiles[ix] = null
 		ix += 1
 	pass
 func remove_enemy(ptr):		# 撃墜した敵機を削除
@@ -175,11 +178,11 @@ func _physics_process(delta):
 	dur += delta
 	if dur >= 1.0:
 		dur = 0.0
-		animateEnemies()
+		animateEnemies()	# 敵機アニメーション
 	dur2 += delta
 	if dur >= 0.1:
 		dur2 = 0
-		moveEnemies()
+		moveEnemies()		# 敵機移動
 	dur_em += delta
 	if dur_em >= 1.0:
 		dur_em = 0
@@ -198,7 +201,7 @@ func _physics_process(delta):
 		autoMoving = false
 	elif autoMoving:
 		dx = 1 if ($Fighter.position.x < autoMoveX) else -1
-		print($Fighter.position.x, ", ", autoMoveX, ", ", dx)
+		#rint($Fighter.position.x, ", ", autoMoveX, ", ", dx)
 	if dx != 0:
 		$Fighter.position.x += dx * MOVE_UNIT * delta
 		$Fighter.position.x = max($Fighter.position.x, MIN_FIGHTER_X)
