@@ -83,9 +83,10 @@ func processEnemyMissiles():
 			var bc = em.move_and_collide(emv)
 			if bc != null:
 				if bc.collider == $Fighter:		# 自機に命中
-					var expl = Explosion.instance()
-					expl.position = $Fighter.position
-					add_child(expl)
+					#var expl = Explosion.instance()
+					#expl.position = $Fighter.position
+					#add_child(expl)
+					$Fighter/Explosion.restart()
 					nFighter -= 1
 					if nFighter == 0:
 						gameOver = true
