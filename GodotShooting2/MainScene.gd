@@ -20,6 +20,7 @@ const ENEMY_MISSILE_DY = 5
 var Missile = load("res://Missile.tscn")
 var Enemy1 = load("res://Enemy1.tscn")
 var EnemyMissile = load("res://EnemyMissile.tscn")
+var Explosion = load("res://Explosion.tscn")
 
 var gameOver = false
 var nFighter = 3
@@ -82,6 +83,9 @@ func processEnemyMissiles():
 			var bc = em.move_and_collide(emv)
 			if bc != null:
 				if bc.collider == $Fighter:		# 自機に命中
+					var expl = Explosion.instance()
+					expl.position = $Fighter.position
+					add_child(expl)
 					nFighter -= 1
 					if nFighter == 0:
 						gameOver = true
