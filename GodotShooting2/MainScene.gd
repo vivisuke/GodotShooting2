@@ -23,6 +23,7 @@ var EnemyMissile = load("res://EnemyMissile.tscn")
 var Explosion = load("res://Explosion.tscn")
 
 var gameOver = false
+var exploding = false		# 爆発中
 var nFighter = 3
 var score = 0
 var autoMoving : bool = false		# 自機自動移動中
@@ -33,6 +34,7 @@ var emv = Vector2(0, ENEMY_MISSILE_DY)
 var dur = 0.0		# for 敵アニメーション
 var dur2 = 0.0		# for 敵移動
 var dur_em = 0.0	# for 敵ミサイル発射
+var dur_expl = 0.0		# 爆発中カウンタ
 var mv_ix = 0
 var move_down : bool = false
 var move_right : bool = false
@@ -86,7 +88,10 @@ func processEnemyMissiles():
 					#var expl = Explosion.instance()
 					#expl.position = $Fighter.position
 					#add_child(expl)
+					$Fighter/Sprite.hide()
 					$Fighter/Explosion.restart()
+					exploding = true
+					dur_expl = 0.0
 					nFighter -= 1
 					if nFighter == 0:
 						gameOver = true
@@ -182,6 +187,10 @@ func processMissile():
 func _physics_process(delta):
 	if gameOver:
 		return
+	if exploding:
+		dur_expl += delta
+		if dur_expl >= 4.0 && nFighter != 0:
+			$Fighter/Sprite.show()
 	dur += delta
 	if dur >= 1.0:
 		dur = 0.0
