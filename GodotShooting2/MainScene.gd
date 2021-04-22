@@ -190,6 +190,7 @@ func _physics_process(delta):
 	if exploding:
 		dur_expl += delta
 		if dur_expl >= 4.0 && nFighter != 0:
+			exploding = false
 			$Fighter/Sprite.show()
 	dur += delta
 	if dur >= 1.0:

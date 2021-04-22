@@ -8,6 +8,7 @@ amount = 100
 lifetime = 4.0
 one_shot = true
 explosiveness = 1.0
+local_coords = false
 texture = ExtResource( 1 )
 emission_shape = 1
 emission_sphere_radius = 2.0
