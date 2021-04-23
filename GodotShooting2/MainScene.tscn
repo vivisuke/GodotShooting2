@@ -163,6 +163,11 @@ position = Vector2( 300, 580 )
 [node name="Bunker11" parent="." instance=ExtResource( 11 )]
 position = Vector2( 400, 580 )
 
+[node name="GameOverDlg" type="AcceptDialog" parent="."]
+margin_right = 55.0
+margin_bottom = 58.0
+window_title = "警告!"
+
 [connection signal="button_down" from="CanvasLayer/LeftButton" to="." method="_on_LeftButton_button_down"]
 [connection signal="button_up" from="CanvasLayer/LeftButton" to="." method="_on_LeftButton_button_up"]
 [connection signal="button_down" from="CanvasLayer/RightButton" to="." method="_on_RightButton_button_down"]

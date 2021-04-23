@@ -23,6 +23,7 @@ var EnemyMissile = load("res://EnemyMissile.tscn")
 var Explosion = load("res://Explosion.tscn")
 
 var gameOver = false
+#var gameOverDlg = null
 var exploding = false		# 爆発中
 var nFighter = 3
 var score = 0
@@ -100,8 +101,14 @@ func processEnemyMissiles():
 					nFighter -= 1
 					if nFighter == 0:
 						gameOver = true
+						$GameOverDlg.window_title = "GodotShooting"
+						$GameOverDlg.dialog_text = "GAME OVER\nTRY AGAIN ?"
+						$GameOverDlg.popup_centered()
 					updateLeftFighter()
 					clearAllMissiles()
+					if missile != null:
+						missile.queue_free()	# 自機ミサイル消去
+						missile = null
 					return
 				else:
 					bc.collider.queue_free()
