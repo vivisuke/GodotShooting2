@@ -78,12 +78,17 @@ func updateLeftFighter():
 	$CanvasLayer/Sprite1.set_visible(nFighter>1)
 	$CanvasLayer/Sprite2.set_visible(nFighter>2)
 	pass
+func clearAllMissiles():
+	for em in enemyMissiles:
+		if em != null:
+			em.queue_free()
+	enemyMissiles.clear()	
 func processEnemyMissiles():
 	var ix = 0
 	for em in enemyMissiles:
 		if em != null:
 			var bc = em.move_and_collide(emv)
-			if bc != null:
+			if bc != null && !exploding:
 				if bc.collider == $Fighter:		# 自機に命中
 					#var expl = Explosion.instance()
 					#expl.position = $Fighter.position
@@ -96,6 +101,8 @@ func processEnemyMissiles():
 					if nFighter == 0:
 						gameOver = true
 					updateLeftFighter()
+					clearAllMissiles()
+					return
 				else:
 					bc.collider.queue_free()
 				em.queue_free()
@@ -189,9 +196,11 @@ func _physics_process(delta):
 		return
 	if exploding:
 		dur_expl += delta
-		if dur_expl >= 4.0 && nFighter != 0:
+		if dur_expl >= 2.0 && nFighter != 0:
 			exploding = false
 			$Fighter/Sprite.show()
+		else:
+			return
 	dur += delta
 	if dur >= 1.0:
 		dur = 0.0

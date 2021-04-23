@@ -7,7 +7,7 @@
 [ext_resource path="res://images/btn2.png" type="Texture" id=5]
 [ext_resource path="res://images/right.png" type="Texture" id=6]
 [ext_resource path="res://sounds/missile.ogg" type="AudioStream" id=7]
-[ext_resource path="res://sounds/explosion-3.ogg" type="AudioStream" id=8]
+[ext_resource path="res://sounds/explosion-1.mp3" type="AudioStream" id=8]
 [ext_resource path="res://PixelMplus12-Regular.ttf" type="DynamicFontData" id=9]
 [ext_resource path="res://Bunker.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Bunker8.tscn" type="PackedScene" id=11]
@@ -44,7 +44,6 @@ texture = ExtResource( 2 )
 shape = SubResource( 1 )
 
 [node name="Explosion" parent="Fighter" instance=ExtResource( 12 )]
-emitting = false
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 2
@@ -163,6 +162,7 @@ position = Vector2( 300, 580 )
 
 [node name="Bunker11" parent="." instance=ExtResource( 11 )]
 position = Vector2( 400, 580 )
+
 [connection signal="button_down" from="CanvasLayer/LeftButton" to="." method="_on_LeftButton_button_down"]
 [connection signal="button_up" from="CanvasLayer/LeftButton" to="." method="_on_LeftButton_button_up"]
 [connection signal="button_down" from="CanvasLayer/RightButton" to="." method="_on_RightButton_button_down"]
