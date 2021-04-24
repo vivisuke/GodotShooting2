@@ -58,7 +58,9 @@ func setup_enemies():
 			enemy.position = Vector2(px, py)
 			enemy.get_node("Sprite").frame = y & 0x1e
 			add_child(enemy)
-			enemies[x+y*ENEMY_N_HORZ] = enemy
+			var ix = x+y*ENEMY_N_HORZ;
+			enemies[ix] = enemy
+			enemy.set("aryix", ix)
 func fireEnemyMissile():
 	var r = randi() % nEnemies		# ミサイルを発射する敵
 	var ix = 0
