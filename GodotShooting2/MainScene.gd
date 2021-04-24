@@ -227,6 +227,7 @@ func processMissile():				# 自機ミサイル処理
 				if bc.collider == $UFO:			# UFO に当たった場合
 					$UFOLabel.rect_position.x = $UFO.position.x
 					$UFOLabel.text = "%d" % UFO_POINTS[UFOPntIX]
+					$UFOLabel/Timer.start()
 					$UFO.position.x = -1
 					#print("UFO")
 					score += UFO_POINTS[UFOPntIX]
@@ -304,7 +305,7 @@ func _on_FireButton_pressed():
 	fireMissile()
 func _on_GameOverDlg_confirmed():
 	restartGame()
-	pass # Replace with function body.
 func _on_UFOTimer_timeout():
 	$UFO.position.x = SCREEN_WIDTH
-	pass # Replace with function body.
+func _on_UFOLabelTimer_timeout():
+	$UFOLabel.text = ""

@@ -53,6 +53,10 @@ texture = ExtResource( 13 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="UFO"]
 shape = SubResource( 3 )
 
+[node name="UFOTimer" type="Timer" parent="UFO"]
+wait_time = 10.0
+autostart = true
+
 [node name="Fighter" type="KinematicBody2D" parent="."]
 position = Vector2( 250, 620 )
 __meta__ = {
@@ -190,10 +194,6 @@ margin_right = 55.0
 margin_bottom = 58.0
 window_title = "警告!"
 
-[node name="UFOTimer" type="Timer" parent="."]
-wait_time = 10.0
-autostart = true
-
 [node name="UFOLabel" type="Label" parent="."]
 margin_left = -100.0
 margin_top = 120.0
@@ -205,10 +205,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Timer" type="Timer" parent="UFOLabel"]
+one_shot = true
+
+[connection signal="timeout" from="UFO/UFOTimer" to="." method="_on_UFOTimer_timeout"]
 [connection signal="button_down" from="CanvasLayer/LeftButton" to="." method="_on_LeftButton_button_down"]
 [connection signal="button_up" from="CanvasLayer/LeftButton" to="." method="_on_LeftButton_button_up"]
 [connection signal="button_down" from="CanvasLayer/RightButton" to="." method="_on_RightButton_button_down"]
 [connection signal="button_up" from="CanvasLayer/RightButton" to="." method="_on_RightButton_button_up"]
 [connection signal="pressed" from="CanvasLayer/FireButton" to="." method="_on_FireButton_pressed"]
 [connection signal="confirmed" from="GameOverDlg" to="." method="_on_GameOverDlg_confirmed"]
-[connection signal="timeout" from="UFOTimer" to="." method="_on_UFOTimer_timeout"]
+[connection signal="timeout" from="UFOLabel/Timer" to="." method="_on_UFOLabelTimer_timeout"]
