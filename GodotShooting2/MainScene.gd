@@ -18,6 +18,7 @@ const ENEMY_MISSILE_OFFSET = 16 + 32 + 8	# 敵ミサイル発射位置
 const MIN_ENEMY_X = ENEMY_LR_SPC
 const MAX_ENEMY_X = SCREEN_WIDTH - ENEMY_LR_SPC
 const ENEMY_MISSILE_DY = 5
+const UFO_POINTS = [10, 10, 50, 10, 10, 50, 10, 10, 300, 10, 10, 50, 10, 10]
 
 var Missile = load("res://Missile.tscn")
 var Enemy1 = load("res://Enemy1.tscn")
@@ -29,6 +30,7 @@ var gameOver = false
 var exploding = false		# 爆発中
 var nFighter = 3
 var score = 0
+var UFOPntIX = 0
 var autoMoving : bool = false		# 自機自動移動中
 var autoMoveX = 0					# 自機自動移動先座標
 var missile = null
@@ -178,6 +180,9 @@ func _ready():
 	pass # Replace with function body.
 func fireMissile():
 	if missile == null:
+		UFOPntIX += 1
+		if UFOPntIX == UFO_POINTS.size():
+			UFOPntIX = 0
 		missile = Missile.instance()
 		missile.position = $Fighter.position
 		#print(missile.position)
@@ -220,8 +225,12 @@ func processMissile():				# 自機ミサイル処理
 				missile.queue_free()
 				missile = null
 				if bc.collider == $UFO:			# UFO に当たった場合
+					$UFOLabel.rect_position.x = $UFO.position.x
+					$UFOLabel.text = "%d" % UFO_POINTS[UFOPntIX]
 					$UFO.position.x = -1
-					print("UFO")
+					#print("UFO")
+					score += UFO_POINTS[UFOPntIX]
+					updateScoreLabel()
 				else:
 					remove_enemy(bc.collider)	# 撃墜した敵機を削除, score更新
 					bc.collider.queue_free()
