@@ -13,6 +13,7 @@ const ENEMY_V_PITCH = 48
 const ENEMY_N_HORZ = 8
 const ENEMY_N_VERT = 5
 const ENEMY_LR_SPC = 48
+const ENEMY_MISSILE_OFFSET = 16 + 32 + 8	# 敵ミサイル発射位置
 const MIN_ENEMY_X = ENEMY_LR_SPC
 const MAX_ENEMY_X = SCREEN_WIDTH - ENEMY_LR_SPC
 const ENEMY_MISSILE_DY = 5
@@ -71,6 +72,7 @@ func fireEnemyMissile():
 	if enemies[ix] != null:
 		var em = EnemyMissile.instance()
 		em.position = enemies[ix].position
+		em.position.y += ENEMY_MISSILE_OFFSET
 		add_child(em)
 		while !enemyMissiles.empty() && enemyMissiles[0] == null:
 			enemyMissiles.pop_front()		# 空要素削除
