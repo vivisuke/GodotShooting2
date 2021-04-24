@@ -47,6 +47,20 @@ var enemyMissiles = []
 var leftPressed : bool = false
 var rightPressed : bool = false
 
+func restartGame():
+	gameOver = false
+	exploding = false
+	nFighter = 3
+	score = 0
+	autoMoving = false
+	$Fighter/Sprite.show()
+	#gameOverDlg.
+	for ix in range(enemies.size()):	# 現状の敵機をすべて消去
+		if enemies[ix] != null:
+			enemies[ix].queue_free()
+			enemies[ix] = null
+	setup_enemies()
+	pass
 func setup_enemies():
 	nEnemies = ENEMY_N_HORZ * ENEMY_N_VERT
 	enemies.resize(ENEMY_N_HORZ * ENEMY_N_VERT)
@@ -105,7 +119,7 @@ func processEnemyMissiles():
 					exploding = true
 					dur_expl = 0.0
 					nFighter -= 1
-					if nFighter == 0:
+					if nFighter == 0:		# 自機：０、ゲームオーバー
 						gameOver = true
 						$GameOverDlg.window_title = "GodotShooting"
 						$GameOverDlg.dialog_text = "GAME OVER\nTRY AGAIN ?"
@@ -265,3 +279,6 @@ func _on_RightButton_button_up():
 	rightPressed = false
 func _on_FireButton_pressed():
 	fireMissile()
+func _on_GameOverDlg_confirmed():
+	restartGame()
+	pass # Replace with function body.
