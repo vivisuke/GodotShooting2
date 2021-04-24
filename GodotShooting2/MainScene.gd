@@ -60,6 +60,8 @@ func restartGame():
 			enemies[ix].queue_free()
 			enemies[ix] = null
 	setup_enemies()
+	updateLeftFighter()
+	updateScoreLabel()
 	pass
 func setup_enemies():
 	nEnemies = ENEMY_N_HORZ * ENEMY_N_VERT
