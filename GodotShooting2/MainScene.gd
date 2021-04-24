@@ -1,6 +1,6 @@
 extends Node2D
 
-const SCREEN_WIDTH = 500
+const SCREEN_WIDTH = 500		# スクリーン幅
 const MOVE_UNIT = 200
 const FIGHTER_LR_SPC = 64
 const MIN_FIGHTER_X = FIGHTER_LR_SPC
@@ -59,10 +59,10 @@ func setup_enemies():
 			add_child(enemy)
 			enemies[x+y*ENEMY_N_HORZ] = enemy
 func fireEnemyMissile():
-	var r = randi() % nEnemies
+	var r = randi() % nEnemies		# ミサイルを発射する敵
 	var ix = 0
 	while true:
-		while enemies[ix] == null:
+		while enemies[ix] == null:	# 空要素はスキップ
 			ix += 1
 		if r == 0:
 			break
@@ -72,6 +72,8 @@ func fireEnemyMissile():
 		var em = EnemyMissile.instance()
 		em.position = enemies[ix].position
 		add_child(em)
+		while !enemyMissiles.empty() && enemyMissiles[0] == null:
+			enemyMissiles.pop_front()		# 空要素削除
 		enemyMissiles.push_back(em)
 	pass
 func updateLeftFighter():
