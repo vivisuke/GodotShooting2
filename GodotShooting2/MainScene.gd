@@ -1,6 +1,7 @@
 extends Node2D
 
 const SCREEN_WIDTH = 500		# スクリーン幅
+const UFO_MOVE_UNIT = 3
 const MOVE_UNIT = 200
 const FIGHTER_LR_SPC = 64
 const MIN_FIGHTER_X = FIGHTER_LR_SPC
@@ -64,6 +65,7 @@ func restartGame():
 	updateScoreLabel()
 	pass
 func setup_enemies():
+	$UFO.position.x = -1
 	nEnemies = ENEMY_N_HORZ * ENEMY_N_VERT
 	enemies.resize(ENEMY_N_HORZ * ENEMY_N_VERT)
 	for y in range(ENEMY_N_VERT):
@@ -206,7 +208,7 @@ func moveEnemies():		# 敵移動処理
 			if enemies[mv_ix].position.x <= MIN_ENEMY_X:
 				en_collied = true;
 	mv_ix = next_enemy(mv_ix)
-func processMissile():
+func processMissile():				# 自機ミサイル処理
 	if missile != null:
 		if missile.position.y < 0:	# 画面上部に出た場合
 			missile.queue_free()
@@ -217,8 +219,12 @@ func processMissile():
 			if bc != null:		# 敵機に当たった場合
 				missile.queue_free()
 				missile = null
-				remove_enemy(bc.collider)	# 撃墜した敵機を削除, score更新
-				bc.collider.queue_free()
+				if bc.collider == $UFO:			# UFO に当たった場合
+					$UFO.position.x = -1
+					print("UFO")
+				else:
+					remove_enemy(bc.collider)	# 撃墜した敵機を削除, score更新
+					bc.collider.queue_free()
 				$AudioMissile.stop()		# ミサイル発射音停止
 				$AudioExplosion.play()		# 爆発音
 				updateScoreLabel()
@@ -234,6 +240,8 @@ func _physics_process(delta):
 			$Fighter/Sprite.show()
 		else:
 			return
+	if $UFO.position.x > 0:
+		$UFO.position.x -= UFO_MOVE_UNIT
 	dur += delta
 	if dur >= 1.0:
 		dur = 0.0
@@ -287,4 +295,7 @@ func _on_FireButton_pressed():
 	fireMissile()
 func _on_GameOverDlg_confirmed():
 	restartGame()
+	pass # Replace with function body.
+func _on_UFOTimer_timeout():
+	$UFO.position.x = SCREEN_WIDTH
 	pass # Replace with function body.
