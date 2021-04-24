@@ -72,9 +72,11 @@ func setup_enemies():
 			enemy.position = Vector2(px, py)
 			enemy.get_node("Sprite").frame = y & 0x1e
 			add_child(enemy)
-			var ix = x+y*ENEMY_N_HORZ;
+			var ix : int = x+y*ENEMY_N_HORZ;
 			enemies[ix] = enemy
 			enemy.set("aryix", ix)
+			#print(enemy.get("aryix"))
+			#print(enemies[ix].get("aryix"))
 func fireEnemyMissile():
 	var r = randi() % nEnemies		# ミサイルを発射する敵
 	var ix = 0
@@ -142,12 +144,12 @@ func processEnemyMissiles():
 func remove_enemy(ptr):		# 撃墜した敵機を削除
 	for ix in range(enemies.size()):
 		if enemies[ix] == ptr:
+	#var ix : int = ptr.get("aryix")
 			var pnt = floor(ix / (ENEMY_N_HORZ*2)) + 1
 			score += pnt * 10
 			enemies[ix] = null
 			nEnemies -= 1
 			return
-	pass
 func updateScoreLabel():
 	var txt = "%05d" % score
 	$CanvasLayer/Score.text = txt
@@ -218,6 +220,8 @@ func processMissile():
 				$AudioMissile.stop()		# ミサイル発射音停止
 				$AudioExplosion.play()		# 爆発音
 				updateScoreLabel()
+				if nEnemies == 0:		# 敵をすべて撃破した場合
+					setup_enemies()
 func _physics_process(delta):
 	if gameOver:
 		return
