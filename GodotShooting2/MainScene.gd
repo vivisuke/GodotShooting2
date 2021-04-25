@@ -27,6 +27,7 @@ var EnemyMissile = load("res://EnemyMissile.tscn")
 var Explosion = load("res://Explosion.tscn")
 
 var gameOver = false
+var invaded = false			# 敵機が最下段に到達
 #var gameOverDlg = null
 var exploding = false		# 爆発中
 var nFighter = 3
@@ -54,6 +55,7 @@ var rightPressed : bool = false
 
 func restartGame():
 	gameOver = false
+	invaded = false
 	exploding = false
 	nFighter = 3
 	score = 0
@@ -124,6 +126,22 @@ func clearAllMissiles():
 		if em != null:
 			em.queue_free()
 	enemyMissiles.clear()	
+func explodeFighter():
+	$Fighter/Sprite.hide()
+	$Fighter/Explosion.restart()
+	exploding = true
+	dur_expl = 0.0
+	nFighter -= 1
+	if nFighter == 0:		# 自機：０、ゲームオーバー
+		gameOver = true
+		$GameOverDlg.window_title = "GodotShooting"
+		$GameOverDlg.dialog_text = "GAME OVER\nTRY AGAIN ?"
+		$GameOverDlg.popup_centered()
+	updateLeftFighter()
+	clearAllMissiles()
+	if missile != null:
+		missile.queue_free()	# 自機ミサイル消去
+		missile = null
 func processEnemyMissiles():
 	var ix = 0
 	for em in enemyMissiles:
@@ -134,21 +152,7 @@ func processEnemyMissiles():
 					#var expl = Explosion.instance()
 					#expl.position = $Fighter.position
 					#add_child(expl)
-					$Fighter/Sprite.hide()
-					$Fighter/Explosion.restart()
-					exploding = true
-					dur_expl = 0.0
-					nFighter -= 1
-					if nFighter == 0:		# 自機：０、ゲームオーバー
-						gameOver = true
-						$GameOverDlg.window_title = "GodotShooting"
-						$GameOverDlg.dialog_text = "GAME OVER\nTRY AGAIN ?"
-						$GameOverDlg.popup_centered()
-					updateLeftFighter()
-					clearAllMissiles()
-					if missile != null:
-						missile.queue_free()	# 自機ミサイル消去
-						missile = null
+					explodeFighter()
 					return
 				else:
 					bc.collider.queue_free()
@@ -217,6 +221,8 @@ func moveEnemies():		# 敵移動処理
 	if enemies[mv_ix] != null:
 		if move_down:
 			enemies[mv_ix].position.y += ENEMY_V_PITCH / 2
+			if enemies[mv_ix].position.y >= 620:
+				invaded = true
 		elif move_right:
 			enemies[mv_ix].position.x += 2
 			if enemies[mv_ix].position.x >= MAX_ENEMY_X:
@@ -265,6 +271,7 @@ func _physics_process(delta):
 			return
 	if $UFO.position.x > 0:
 		$UFO.position.x -= UFO_MOVE_UNIT
+		#$UFO/Sprite.frame ^= 1
 	dur += delta
 	if dur >= 1.0:
 		dur = 0.0
@@ -297,6 +304,9 @@ func _physics_process(delta):
 		$Fighter.position.x = max($Fighter.position.x, MIN_FIGHTER_X)
 		$Fighter.position.x = min($Fighter.position.x, MAX_FIGHTER_X)
 	processEnemyMissiles()		# 敵ミサイル処理
+	if invaded:
+		explodeFighter()
+		invaded = false
 func _input(event):
 	if event is InputEventMouseButton && event.pressed:
 		if (event.position.x >= 32 && event.position.x < SCREEN_WIDTH - 32 &&
