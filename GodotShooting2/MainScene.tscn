@@ -203,4 +203,5 @@ one_shot = true
 [connection signal="button_up" from="CanvasLayer/RightButton" to="." method="_on_RightButton_button_up"]
 [connection signal="pressed" from="CanvasLayer/FireButton" to="." method="_on_FireButton_pressed"]
 [connection signal="confirmed" from="GameOverDlg" to="." method="_on_GameOverDlg_confirmed"]
+[connection signal="popup_hide" from="GameOverDlg" to="." method="_on_GameOverDlg_popup_hide"]
 [connection signal="timeout" from="UFOLabel/Timer" to="." method="_on_UFOLabelTimer_timeout"]

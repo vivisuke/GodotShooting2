@@ -327,8 +327,14 @@ func _on_RightButton_button_up():
 func _on_FireButton_pressed():
 	fireMissile()
 func _on_GameOverDlg_confirmed():
+	#restartGame()
+	pass
+func _on_GameOverDlg_popup_hide():
+	print("GameOverDlg_popup_hide()")
 	restartGame()
 func _on_UFOTimer_timeout():
 	$UFO.position.x = SCREEN_WIDTH
 func _on_UFOLabelTimer_timeout():
 	$UFOLabel.text = ""
+
+
