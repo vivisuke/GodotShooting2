@@ -136,9 +136,9 @@ func explodeFighter():
 	nFighter -= 1
 	if nFighter == 0:		# 自機：０、ゲームオーバー
 		gameOver = true
-		$GameOverDlg.window_title = "GodotShooting"
-		$GameOverDlg.dialog_text = "GAME OVER\nTRY AGAIN ?"
-		$GameOverDlg.popup_centered()
+		$DlgLayer/GameOverDlg.window_title = "GodotShooting"
+		$DlgLayer/GameOverDlg.dialog_text = "GAME OVER\nTRY AGAIN ?"
+		$DlgLayer/GameOverDlg.popup_centered()
 	updateLeftFighter()
 	clearAllMissiles()
 	if missile != null:

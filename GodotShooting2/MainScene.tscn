@@ -195,11 +195,6 @@ position = Vector2( 300, 580 )
 visible = false
 position = Vector2( 400, 580 )
 
-[node name="GameOverDlg" type="AcceptDialog" parent="."]
-margin_right = 55.0
-margin_bottom = 58.0
-window_title = "警告!"
-
 [node name="UFOLabel" type="Label" parent="."]
 margin_left = -100.0
 margin_top = 120.0
@@ -214,12 +209,20 @@ __meta__ = {
 [node name="Timer" type="Timer" parent="UFOLabel"]
 one_shot = true
 
+[node name="DlgLayer" type="CanvasLayer" parent="."]
+layer = 9
+
+[node name="GameOverDlg" type="AcceptDialog" parent="DlgLayer"]
+margin_right = 55.0
+margin_bottom = 58.0
+window_title = "警告!"
+
 [connection signal="timeout" from="UFO/UFOTimer" to="." method="_on_UFOTimer_timeout"]
 [connection signal="button_down" from="CanvasLayer/LeftButton" to="." method="_on_LeftButton_button_down"]
 [connection signal="button_up" from="CanvasLayer/LeftButton" to="." method="_on_LeftButton_button_up"]
 [connection signal="button_down" from="CanvasLayer/RightButton" to="." method="_on_RightButton_button_down"]
 [connection signal="button_up" from="CanvasLayer/RightButton" to="." method="_on_RightButton_button_up"]
 [connection signal="pressed" from="CanvasLayer/FireButton" to="." method="_on_FireButton_pressed"]
-[connection signal="confirmed" from="GameOverDlg" to="." method="_on_GameOverDlg_confirmed"]
-[connection signal="popup_hide" from="GameOverDlg" to="." method="_on_GameOverDlg_popup_hide"]
 [connection signal="timeout" from="UFOLabel/Timer" to="." method="_on_UFOLabelTimer_timeout"]
+[connection signal="confirmed" from="DlgLayer/GameOverDlg" to="." method="_on_GameOverDlg_confirmed"]
+[connection signal="popup_hide" from="DlgLayer/GameOverDlg" to="." method="_on_GameOverDlg_popup_hide"]
