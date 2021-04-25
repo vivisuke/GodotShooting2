@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://images/frame.png" type="Texture" id=1]
 [ext_resource path="res://images/player1.png" type="Texture" id=2]
@@ -14,17 +14,30 @@
 [ext_resource path="res://images/ufo.png" type="Texture" id=13]
 [ext_resource path="res://PixelMplus12-Bold.ttf" type="DynamicFontData" id=14]
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 29.2102, 16.7535 )
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [  ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "New Anim",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 32, 16 )
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=4]
 size = 32
 font_data = ExtResource( 9 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=5]
 size = 32
 font_data = ExtResource( 14 )
 
@@ -51,11 +64,16 @@ texture = ExtResource( 13 )
 hframes = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="UFO"]
-shape = SubResource( 3 )
+shape = SubResource( 1 )
 
 [node name="UFOTimer" type="Timer" parent="UFO"]
 wait_time = 10.0
 autostart = true
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="UFO"]
+visible = false
+frames = SubResource( 2 )
+animation = "New Anim"
 
 [node name="Fighter" type="KinematicBody2D" parent="."]
 position = Vector2( 250, 620 )
@@ -67,7 +85,7 @@ __meta__ = {
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Fighter"]
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 
 [node name="Explosion" parent="Fighter" instance=ExtResource( 12 )]
 
@@ -127,7 +145,7 @@ margin_left = 361.433
 margin_top = 12.4898
 margin_right = 441.433
 margin_bottom = 48.4898
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 4 )
 text = "SCORE"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -138,7 +156,7 @@ margin_left = 361.433
 margin_top = 49.4086
 margin_right = 441.433
 margin_bottom = 85.4086
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 4 )
 text = "00000"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -149,7 +167,7 @@ margin_left = 40.0
 margin_top = 660.0
 margin_right = 69.0
 margin_bottom = 696.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 4 )
 text = "3"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -187,7 +205,7 @@ margin_left = -100.0
 margin_top = 120.0
 margin_right = -52.0
 margin_bottom = 156.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 text = "300"
 __meta__ = {
 "_edit_use_anchors_": false

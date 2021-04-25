@@ -57,6 +57,8 @@ func restartGame():
 	gameOver = false
 	invaded = false
 	exploding = false
+	move_down = false
+	move_right = false
 	nFighter = 3
 	score = 0
 	autoMoving = false
@@ -221,8 +223,6 @@ func moveEnemies():		# 敵移動処理
 	if enemies[mv_ix] != null:
 		if move_down:
 			enemies[mv_ix].position.y += ENEMY_V_PITCH / 2
-			if enemies[mv_ix].position.y >= 620:
-				invaded = true
 		elif move_right:
 			enemies[mv_ix].position.x += 2
 			if enemies[mv_ix].position.x >= MAX_ENEMY_X:
@@ -231,6 +231,8 @@ func moveEnemies():		# 敵移動処理
 			enemies[mv_ix].position.x -= 2
 			if enemies[mv_ix].position.x <= MIN_ENEMY_X:
 				en_collied = true;
+		if enemies[mv_ix].position.y >= 620:
+			invaded = true
 	mv_ix = next_enemy(mv_ix)
 func processMissile():				# 自機ミサイル処理
 	if missile != null:
