@@ -21,6 +21,7 @@ const ENEMY_MISSILE_DY = 5
 const UFO_POINTS = [10, 10, 50, 10, 10, 50, 10, 10, 300, 10, 10, 50, 10, 10]
 
 var Missile = load("res://Missile.tscn")
+var Bunker8 = load("res://Bunker8.tscn")
 var Enemy1 = load("res://Enemy1.tscn")
 var EnemyMissile = load("res://EnemyMissile.tscn")
 var Explosion = load("res://Explosion.tscn")
@@ -47,6 +48,7 @@ var en_collied : bool = false
 var enemies = []
 var nEnemies = 0
 var enemyMissiles = []
+var bunkers = []
 var leftPressed : bool = false
 var rightPressed : bool = false
 
@@ -63,6 +65,7 @@ func restartGame():
 			enemies[ix].queue_free()
 			enemies[ix] = null
 	setup_enemies()
+	setup_bunkers()
 	updateLeftFighter()
 	updateScoreLabel()
 	pass
@@ -83,6 +86,15 @@ func setup_enemies():
 			enemy.set("aryix", ix)
 			#print(enemy.get("aryix"))
 			#print(enemies[ix].get("aryix"))
+func setup_bunkers():
+	for ix in range(bunkers.size()):
+		bunkers[ix].queue_free()
+	bunkers = []
+	for x in range(4):
+		var bkr = Bunker8.instance()
+		bkr.position = Vector2((x+1)*100, 580)
+		add_child(bkr)
+		bunkers.push_back(bkr)
 func fireEnemyMissile():
 	var r = randi() % nEnemies		# ミサイルを発射する敵
 	var ix = 0
@@ -176,6 +188,7 @@ func next_enemy(ix):
 func _ready():
 	randomize()
 	setup_enemies()
+	setup_bunkers()
 	#fireEnemyMissile()
 	pass # Replace with function body.
 func fireMissile():
