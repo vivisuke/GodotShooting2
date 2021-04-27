@@ -74,6 +74,11 @@ visible = false
 frames = SubResource( 2 )
 animation = "New Anim"
 
+[node name="Enemy" type="Node2D" parent="."]
+
+[node name="EnemyTimer" type="Timer" parent="Enemy"]
+autostart = true
+
 [node name="Fighter" type="KinematicBody2D" parent="."]
 position = Vector2( 250, 620 )
 __meta__ = {
@@ -88,10 +93,10 @@ shape = SubResource( 3 )
 
 [node name="Explosion" parent="Fighter" instance=ExtResource( 12 )]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="FrameLayer" type="CanvasLayer" parent="."]
 layer = 2
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+[node name="TextureRect" type="TextureRect" parent="FrameLayer"]
 margin_left = -1.1225
 margin_top = -1.1225
 margin_right = 498.878
@@ -101,7 +106,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LeftButton" type="TextureButton" parent="CanvasLayer"]
+[node name="LeftButton" type="TextureButton" parent="FrameLayer"]
 margin_left = 20.0
 margin_top = 720.0
 margin_right = 84.0
@@ -111,7 +116,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RightButton" type="TextureButton" parent="CanvasLayer"]
+[node name="RightButton" type="TextureButton" parent="FrameLayer"]
 margin_left = 100.0
 margin_top = 720.0
 margin_right = 164.0
@@ -121,7 +126,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FireButton" type="TextureButton" parent="CanvasLayer"]
+[node name="FireButton" type="TextureButton" parent="FrameLayer"]
 margin_left = 400.0
 margin_top = 720.0
 margin_right = 464.0
@@ -131,15 +136,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Sprite1" type="Sprite" parent="CanvasLayer"]
+[node name="Sprite1" type="Sprite" parent="FrameLayer"]
 position = Vector2( 100, 680 )
 texture = ExtResource( 2 )
 
-[node name="Sprite2" type="Sprite" parent="CanvasLayer"]
+[node name="Sprite2" type="Sprite" parent="FrameLayer"]
 position = Vector2( 164, 680 )
 texture = ExtResource( 2 )
 
-[node name="Label" type="Label" parent="CanvasLayer"]
+[node name="Label" type="Label" parent="FrameLayer"]
 margin_left = 361.433
 margin_top = 12.4898
 margin_right = 441.433
@@ -150,7 +155,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Score" type="Label" parent="CanvasLayer"]
+[node name="Score" type="Label" parent="FrameLayer"]
 margin_left = 361.433
 margin_top = 49.4086
 margin_right = 441.433
@@ -161,7 +166,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="nFighter" type="Label" parent="CanvasLayer"]
+[node name="nFighter" type="Label" parent="FrameLayer"]
 margin_left = 40.0
 margin_top = 660.0
 margin_right = 69.0
@@ -201,11 +206,12 @@ margin_bottom = 58.0
 window_title = "警告!"
 
 [connection signal="timeout" from="UFO/UFOTimer" to="." method="_on_UFOTimer_timeout"]
-[connection signal="button_down" from="CanvasLayer/LeftButton" to="." method="_on_LeftButton_button_down"]
-[connection signal="button_up" from="CanvasLayer/LeftButton" to="." method="_on_LeftButton_button_up"]
-[connection signal="button_down" from="CanvasLayer/RightButton" to="." method="_on_RightButton_button_down"]
-[connection signal="button_up" from="CanvasLayer/RightButton" to="." method="_on_RightButton_button_up"]
-[connection signal="pressed" from="CanvasLayer/FireButton" to="." method="_on_FireButton_pressed"]
+[connection signal="timeout" from="Enemy/EnemyTimer" to="." method="_on_EnemyTimer_timeout"]
+[connection signal="button_down" from="FrameLayer/LeftButton" to="." method="_on_LeftButton_button_down"]
+[connection signal="button_up" from="FrameLayer/LeftButton" to="." method="_on_LeftButton_button_up"]
+[connection signal="button_down" from="FrameLayer/RightButton" to="." method="_on_RightButton_button_down"]
+[connection signal="button_up" from="FrameLayer/RightButton" to="." method="_on_RightButton_button_up"]
+[connection signal="pressed" from="FrameLayer/FireButton" to="." method="_on_FireButton_pressed"]
 [connection signal="timeout" from="UFOLabel/Timer" to="." method="_on_UFOLabelTimer_timeout"]
 [connection signal="confirmed" from="DlgLayer/GameOverDlg" to="." method="_on_GameOverDlg_confirmed"]
 [connection signal="popup_hide" from="DlgLayer/GameOverDlg" to="." method="_on_GameOverDlg_popup_hide"]

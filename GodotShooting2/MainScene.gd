@@ -38,7 +38,7 @@ var autoMoveX = 0					# 自機自動移動先座標
 var missile = null
 var mv = Vector2(0, MISSILE_DY)
 var emv = Vector2(0, ENEMY_MISSILE_DY)
-var dur = 0.0		# for 敵アニメーション
+#var dur = 0.0		# for 敵アニメーション
 var dur2 = 0.0		# for 敵移動
 var dur_em = 0.0	# for 敵ミサイル発射
 var dur_expl = 0.0		# 爆発中カウンタ
@@ -274,12 +274,12 @@ func _physics_process(delta):
 	if $UFO.position.x > 0:
 		$UFO.position.x -= UFO_MOVE_UNIT
 		#$UFO/Sprite.frame ^= 1
-	dur += delta
-	if dur >= 1.0:
-		dur = 0.0
-		animateEnemies()	# 敵機アニメーション
+	#dur += delta
+	#if dur >= 1.0:
+	#	dur = 0.0
+	#	animateEnemies()	# 敵機アニメーション
 	dur2 += delta
-	if dur >= 0.1:
+	if dur2 >= 0.1:
 		dur2 = 0
 		moveEnemies()		# 敵機移動
 	dur_em += delta
@@ -338,5 +338,5 @@ func _on_UFOTimer_timeout():
 	$UFO.position.x = SCREEN_WIDTH
 func _on_UFOLabelTimer_timeout():
 	$UFOLabel.text = ""
-
-
+func _on_EnemyTimer_timeout():
+	animateEnemies()	# 敵機アニメーション
