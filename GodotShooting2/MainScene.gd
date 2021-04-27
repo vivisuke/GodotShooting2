@@ -41,7 +41,7 @@ var mv = Vector2(0, MISSILE_DY)
 var emv = Vector2(0, ENEMY_MISSILE_DY)
 #var dur = 0.0		# for 敵アニメーション
 #var dur2 = 0.0		# for 敵移動
-var dur_em = 0.0	# for 敵ミサイル発射
+#var dur_em = 0.0	# for 敵ミサイル発射
 var dur_expl = 0.0		# 爆発中カウンタ
 var mv_ix = 0
 var move_down : bool = false
@@ -101,6 +101,8 @@ func setup_bunkers():
 		add_child(bkr)
 		bunkers.push_back(bkr)
 func fireEnemyMissile():
+	if gameOver:
+		return
 	var r = randi() % nEnemies		# ミサイルを発射する敵
 	var ix = 0
 	while true:
@@ -287,10 +289,10 @@ func _physics_process(delta):
 	#if dur2 >= 0.1:
 	#	dur2 = 0
 	#	moveEnemies()		# 敵機移動
-	dur_em += delta
-	if dur_em >= 1.0:
-		dur_em = 0
-		fireEnemyMissile()		# 敵ミサイル発射
+	#dur_em += delta
+	#if dur_em >= 1.0:
+	#	dur_em = 0
+	#	fireEnemyMissile()		# 敵ミサイル発射
 	if missile != null:		# 自機ミサイル飛翔中
 		processMissile()
 	else:
@@ -347,3 +349,5 @@ func _on_EnemyTimer_timeout():
 	animateEnemies()	# 敵機アニメーション
 func _on_EnemyMoveTimer_timeout():
 	moveEnemies()		# 敵機移動
+func _on_EnemyMissileTimer_timeout():
+	fireEnemyMissile()		# 敵ミサイル発射

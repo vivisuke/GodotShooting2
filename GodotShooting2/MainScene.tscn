@@ -83,6 +83,9 @@ autostart = true
 wait_time = 0.02
 autostart = true
 
+[node name="EnemyMissileTimer" type="Timer" parent="Enemy"]
+autostart = true
+
 [node name="Fighter" type="KinematicBody2D" parent="."]
 position = Vector2( 250, 620 )
 __meta__ = {
@@ -212,6 +215,7 @@ window_title = "警告!"
 [connection signal="timeout" from="UFO/UFOTimer" to="." method="_on_UFOTimer_timeout"]
 [connection signal="timeout" from="Enemy/EnemyTimer" to="." method="_on_EnemyTimer_timeout"]
 [connection signal="timeout" from="Enemy/EnemyMoveTimer" to="." method="_on_EnemyMoveTimer_timeout"]
+[connection signal="timeout" from="Enemy/EnemyMissileTimer" to="." method="_on_EnemyMissileTimer_timeout"]
 [connection signal="button_down" from="FrameLayer/LeftButton" to="." method="_on_LeftButton_button_down"]
 [connection signal="button_up" from="FrameLayer/LeftButton" to="." method="_on_LeftButton_button_up"]
 [connection signal="button_down" from="FrameLayer/RightButton" to="." method="_on_RightButton_button_down"]

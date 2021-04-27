@@ -79,5 +79,5 @@ SPR# 状 P Open Close ver     Type  概要
 0076 ◎ C 04/28 04/28 0.001│ToDo│敵機アニメーション：dur をやめて Timer 使用
 0077 ◎ C 04/28 04/28 0.001│ToDo│リネーム：CanvasLayer → FrameLayer
 0078 ◎ C 04/28 04/28 0.001│ToDo│敵機移動：dur2 をやめて Timer 使用
-0079 ● C 04/28            │ToDo│
+0079 ◎ C 04/28 04/28 0.001│ToDo│敵ミサイル発射：dur_em をやめて Timer 使用
 0080 ● C 04/28            │ToDo│
