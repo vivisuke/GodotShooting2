@@ -14,6 +14,7 @@ const ENEMY_V_PITCH = 48
 const ENEMY_N_HORZ = 8
 const ENEMY_N_VERT = 5
 const ENEMY_LR_SPC = 48
+const ENEMY_MOVE_UNIT = 4
 const ENEMY_MISSILE_OFFSET = 16 + 32 + 8	# 敵ミサイル発射位置
 const MIN_ENEMY_X = ENEMY_LR_SPC
 const MAX_ENEMY_X = SCREEN_WIDTH - ENEMY_LR_SPC
@@ -39,7 +40,7 @@ var missile = null
 var mv = Vector2(0, MISSILE_DY)
 var emv = Vector2(0, ENEMY_MISSILE_DY)
 #var dur = 0.0		# for 敵アニメーション
-var dur2 = 0.0		# for 敵移動
+#var dur2 = 0.0		# for 敵移動
 var dur_em = 0.0	# for 敵ミサイル発射
 var dur_expl = 0.0		# 爆発中カウンタ
 var mv_ix = 0
@@ -209,6 +210,8 @@ func fireMissile():
 		add_child(missile)
 		$AudioMissile.play()
 func animateEnemies():	# 敵アニメーション処理
+	if gameOver:
+		return
 	for y in range(ENEMY_N_VERT):
 		for x in range(ENEMY_N_HORZ):
 			var ix = x+y*ENEMY_N_HORZ
@@ -220,15 +223,17 @@ func animateEnemies():	# 敵アニメーション処理
 				node.frame ^= 1
 				#print(node.frame)
 func moveEnemies():		# 敵移動処理
+	if gameOver:
+		return
 	if enemies[mv_ix] != null:
 		if move_down:
 			enemies[mv_ix].position.y += ENEMY_V_PITCH / 2
 		elif move_right:
-			enemies[mv_ix].position.x += 2
+			enemies[mv_ix].position.x += ENEMY_MOVE_UNIT
 			if enemies[mv_ix].position.x >= MAX_ENEMY_X:
 				en_collied = true;
 		else:
-			enemies[mv_ix].position.x -= 2
+			enemies[mv_ix].position.x -= ENEMY_MOVE_UNIT
 			if enemies[mv_ix].position.x <= MIN_ENEMY_X:
 				en_collied = true;
 		if enemies[mv_ix].position.y >= 620:
@@ -278,10 +283,10 @@ func _physics_process(delta):
 	#if dur >= 1.0:
 	#	dur = 0.0
 	#	animateEnemies()	# 敵機アニメーション
-	dur2 += delta
-	if dur2 >= 0.1:
-		dur2 = 0
-		moveEnemies()		# 敵機移動
+	#dur2 += delta
+	#if dur2 >= 0.1:
+	#	dur2 = 0
+	#	moveEnemies()		# 敵機移動
 	dur_em += delta
 	if dur_em >= 1.0:
 		dur_em = 0
@@ -340,3 +345,5 @@ func _on_UFOLabelTimer_timeout():
 	$UFOLabel.text = ""
 func _on_EnemyTimer_timeout():
 	animateEnemies()	# 敵機アニメーション
+func _on_EnemyMoveTimer_timeout():
+	moveEnemies()		# 敵機移動
