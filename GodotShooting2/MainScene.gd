@@ -119,9 +119,9 @@ func fireEnemyMissile():
 		enemyMissiles.push_back(em)
 	pass
 func updateLeftFighter():
-	$CanvasLayer/nFighter.text = "%d" % nFighter
-	$CanvasLayer/Sprite1.set_visible(nFighter>1)
-	$CanvasLayer/Sprite2.set_visible(nFighter>2)
+	$FrameLayer/nFighter.text = "%d" % nFighter
+	$FrameLayer/Sprite1.set_visible(nFighter>1)
+	$FrameLayer/Sprite2.set_visible(nFighter>2)
 	pass
 func clearAllMissiles():
 	for em in enemyMissiles:
@@ -176,7 +176,7 @@ func remove_enemy(ptr):		# 撃墜した敵機を削除
 			return
 func updateScoreLabel():
 	var txt = "%05d" % score
-	$CanvasLayer/Score.text = txt
+	$FrameLayer/Score.text = txt
 func next_enemy(ix):
 	while nEnemies != 0:
 		ix += 1
