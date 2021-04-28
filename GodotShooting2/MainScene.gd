@@ -202,7 +202,7 @@ func _ready():
 	#fireEnemyMissile()
 	gameOver = true
 	$DlgLayer/GameOverDlg.window_title = "GodotShooting"
-	$DlgLayer/GameOverDlg.dialog_text = "KEY OPERATION:\n　'<-': Left move\n　'->': Right move\n　Space: Fire Missile"
+	$DlgLayer/GameOverDlg.dialog_text = "KEY OPERATION\n------------------------\n　'<-': Move Left\n　'->': Move Right\n　Space: Fire Missile"
 	$DlgLayer/GameOverDlg.popup_centered()
 	pass # Replace with function body.
 func fireMissile():		# 自機ミサイル発射
