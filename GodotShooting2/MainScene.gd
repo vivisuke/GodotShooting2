@@ -101,7 +101,7 @@ func setup_bunkers():
 		add_child(bkr)
 		bunkers.push_back(bkr)
 func fireEnemyMissile():
-	if gameOver:
+	if gameOver || exploding:
 		return
 	var r = randi() % nEnemies		# ミサイルを発射する敵
 	var ix = 0
@@ -135,6 +135,7 @@ func explodeFighter():
 	$Fighter/Sprite.hide()
 	$Fighter/Explosion.restart()
 	exploding = true
+	clearAllMissiles();		# 敵ミサイル消去
 	dur_expl = 0.0
 	nFighter -= 1
 	if nFighter == 0:		# 自機：０、ゲームオーバー
@@ -143,7 +144,7 @@ func explodeFighter():
 		$DlgLayer/GameOverDlg.dialog_text = "GAME OVER\nTRY AGAIN ?"
 		$DlgLayer/GameOverDlg.popup_centered()
 	updateLeftFighter()
-	clearAllMissiles()
+	#clearAllMissiles()
 	if missile != null:
 		missile.queue_free()	# 自機ミサイル消去
 		missile = null
