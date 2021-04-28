@@ -195,6 +195,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="LinkButton" type="LinkButton" parent="FrameLayer"]
+margin_left = 346.444
+margin_top = 670.64
+margin_right = 428.444
+margin_bottom = 684.64
+rect_scale = Vector2( 1.5, 1.5 )
+text = "Souece Code"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="AudioMissile" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 7 )
 
@@ -232,6 +243,7 @@ window_title = "警告!"
 [connection signal="button_down" from="FrameLayer/RightButton" to="." method="_on_RightButton_button_down"]
 [connection signal="button_up" from="FrameLayer/RightButton" to="." method="_on_RightButton_button_up"]
 [connection signal="pressed" from="FrameLayer/FireButton" to="." method="_on_FireButton_pressed"]
+[connection signal="pressed" from="FrameLayer/LinkButton" to="." method="_on_LinkButton_pressed"]
 [connection signal="timeout" from="UFOLabel/Timer" to="." method="_on_UFOLabelTimer_timeout"]
 [connection signal="confirmed" from="DlgLayer/GameOverDlg" to="." method="_on_GameOverDlg_confirmed"]
 [connection signal="popup_hide" from="DlgLayer/GameOverDlg" to="." method="_on_GameOverDlg_popup_hide"]

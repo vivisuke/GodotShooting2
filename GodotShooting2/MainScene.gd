@@ -356,3 +356,5 @@ func _on_EnemyMoveTimer_timeout():
 	moveEnemies()		# 敵機移動
 func _on_EnemyMissileTimer_timeout():
 	fireEnemyMissile()		# 敵ミサイル発射
+func _on_LinkButton_pressed():
+	OS.shell_open("https://github.com/vivisuke/GodotShooting2")
