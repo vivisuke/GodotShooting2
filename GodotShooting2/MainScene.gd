@@ -201,7 +201,7 @@ func _ready():
 	setup_bunkers()
 	#fireEnemyMissile()
 	pass # Replace with function body.
-func fireMissile():
+func fireMissile():		# 自機ミサイル発射
 	if missile == null:
 		UFOPntIX += 1
 		if UFOPntIX == UFO_POINTS.size():
@@ -272,14 +272,14 @@ func processMissile():				# 自機ミサイル処理
 func _physics_process(delta):
 	if gameOver:
 		return
-	if exploding:
+	if exploding:		# 爆発中
 		dur_expl += delta
 		if dur_expl >= 2.0 && nFighter != 0:
 			exploding = false
 			$Fighter/Sprite.show()
 		else:
 			return
-	if $UFO.position.x > 0:
+	if $UFO.position.x > 0:		# UFO 出現中
 		$UFO.position.x -= UFO_MOVE_UNIT
 		#$UFO/Sprite.frame ^= 1
 	#dur += delta
@@ -300,7 +300,7 @@ func _physics_process(delta):
 		if (Input.is_action_pressed("ui_accept") ||
 			autoMoving && abs($Fighter.position.x - autoMoveX) <= 2):
 				autoMoving = false
-				fireMissile()		# 敵ミサイル発射
+				fireMissile()		# 自機ミサイル発射
 	var dx = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
 	if dx == 0:
 		dx = int(rightPressed) - int(leftPressed)
@@ -335,7 +335,7 @@ func _on_RightButton_button_down():
 func _on_RightButton_button_up():
 	rightPressed = false
 func _on_FireButton_pressed():
-	fireMissile()
+	fireMissile()		# 自機ミサイル発射
 func _on_GameOverDlg_confirmed():
 	#restartGame()
 	pass
