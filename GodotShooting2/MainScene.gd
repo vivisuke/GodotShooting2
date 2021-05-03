@@ -301,7 +301,7 @@ func _physics_process(delta):
 	if missile != null:		# 自機ミサイル飛翔中
 		processMissile()
 	else:
-		if (Input.is_action_pressed("ui_accept") ||
+		if (Input.is_action_pressed("ui_select") ||		# Space Key
 			autoMoving && abs($Fighter.position.x - autoMoveX) <= 2):
 				autoMoving = false
 				fireMissile()		# 自機ミサイル発射
