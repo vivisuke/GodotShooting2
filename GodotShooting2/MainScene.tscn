@@ -33,14 +33,14 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 8.89835, 16 )
 
-[sub_resource type="RectangleShape2D" id=6]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 22.2467, 7.38232 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=5]
 size = 32
 font_data = ExtResource( 9 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=6]
 size = 32
 font_data = ExtResource( 14 )
 
@@ -102,7 +102,7 @@ shape = SubResource( 3 )
 [node name="Explosion" parent="Fighter" instance=ExtResource( 12 )]
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Fighter"]
-shape = SubResource( 6 )
+shape = SubResource( 4 )
 
 [node name="FrameLayer" type="CanvasLayer" parent="."]
 layer = 2
@@ -160,7 +160,7 @@ margin_left = 361.433
 margin_top = 12.4898
 margin_right = 441.433
 margin_bottom = 48.4898
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 text = "SCORE"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -171,7 +171,7 @@ margin_left = 361.433
 margin_top = 49.4086
 margin_right = 441.433
 margin_bottom = 85.4086
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 text = "00000"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -182,7 +182,7 @@ margin_left = 40.0
 margin_top = 660.0
 margin_right = 69.0
 margin_bottom = 696.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 text = "3"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -220,7 +220,7 @@ margin_left = -100.0
 margin_top = 120.0
 margin_right = -52.0
 margin_bottom = 156.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 6 )
 text = "300"
 __meta__ = {
 "_edit_use_anchors_": false

@@ -28,6 +28,7 @@ var EnemyMissile = load("res://EnemyMissile.tscn")
 var Explosion = load("res://Explosion.tscn")
 
 var gameOver = false
+var level = 0
 var invaded = false			# 敵機が最下段に到達
 #var gameOverDlg = null
 var exploding = false		# 爆発中
@@ -62,6 +63,7 @@ func restartGame():
 	move_right = false
 	nFighter = 3
 	score = 0
+	level = 0
 	autoMoving = false
 	$Fighter/Sprite.show()
 	#gameOverDlg.
@@ -75,11 +77,12 @@ func restartGame():
 	updateScoreLabel()
 	pass
 func setup_enemies():
+	print("level = ", level)
 	$UFO.position.x = -1
 	nEnemies = ENEMY_N_HORZ * ENEMY_N_VERT
 	enemies.resize(ENEMY_N_HORZ * ENEMY_N_VERT)
 	for y in range(ENEMY_N_VERT):
-		var py = (ENEMY_N_VERT - 1 - y) * ENEMY_V_PITCH + ENEMY_Y0
+		var py = (ENEMY_N_VERT - 1 - y + min(level, 4)) * ENEMY_V_PITCH + ENEMY_Y0
 		for x in range(ENEMY_N_HORZ):
 			var px = x * ENEMY_H_PITCH + ENEMY_X0
 			var enemy = Enemy1.instance()
@@ -272,6 +275,7 @@ func processMissile():				# 自機ミサイル処理
 				$AudioExplosion.play()		# 爆発音
 				updateScoreLabel()
 				if nEnemies == 0:		# 敵をすべて撃破した場合
+					level += 1
 					setup_enemies()
 func _physics_process(delta):
 	if gameOver:
