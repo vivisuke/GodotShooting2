@@ -107,7 +107,7 @@ func setup_bunkers():
 		add_child(bkr)
 		bunkers.push_back(bkr)
 func fireEnemyMissile():
-	if gameOver || exploding:
+	if gameOver || exploding || paused:
 		return
 	var r = randi() % nEnemies		# ミサイルを発射する敵
 	var ix = 0
