@@ -20,6 +20,7 @@ const MIN_ENEMY_X = ENEMY_LR_SPC
 const MAX_ENEMY_X = SCREEN_WIDTH - ENEMY_LR_SPC
 const ENEMY_MISSILE_DY = 5
 const UFO_POINTS = [10, 10, 50, 10, 10, 50, 10, 10, 300, 10, 10, 50, 10, 10]
+const HI_SCORE_FN = "user://data.txt"
 
 var Missile = load("res://Missile.tscn")
 var Bunker8 = load("res://Bunker8.tscn")
@@ -182,13 +183,30 @@ func remove_enemy(ptr):		# 撃墜した敵機を削除
 			enemies[ix] = null
 			nEnemies -= 1
 			return
+func load_hi_score():
+	hi_score = 0
+	var f = File.new()
+	if f.file_exists(HI_SCORE_FN):
+		var err = f.open(HI_SCORE_FN, File.READ)
+		if err == OK:
+			hi_score = f.get_32()
+		f.close()
+func save_hi_score():
+	var f = File.new()
+	var err = f.open(HI_SCORE_FN, File.WRITE)
+	if err == OK:
+		f.store_32(hi_score)
+	f.close()
+func updateHiScoreLabel():
+	var txt = "%05d" % hi_score
+	$FrameLayer/HiScore.text = txt
 func updateScoreLabel():
 	var txt = "%05d" % score
 	$FrameLayer/Score.text = txt
 	if score > hi_score:
 		hi_score = score
-		txt = "%05d" % hi_score
-		$FrameLayer/HiScore.text = txt
+		updateHiScoreLabel()
+		save_hi_score()
 func next_enemy(ix):
 	while nEnemies != 0:
 		ix += 1
@@ -207,6 +225,8 @@ func _ready():
 	randomize()
 	setup_enemies()
 	setup_bunkers()
+	load_hi_score()
+	updateHiScoreLabel()
 	#fireEnemyMissile()
 	gameOver = true
 	$DlgLayer/GameOverDlg.window_title = "GodotShooting"
