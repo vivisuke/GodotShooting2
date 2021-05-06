@@ -156,21 +156,45 @@ position = Vector2( 164, 680 )
 texture = ExtResource( 2 )
 
 [node name="Label" type="Label" parent="FrameLayer"]
-margin_left = 361.433
-margin_top = 12.4898
-margin_right = 441.433
-margin_bottom = 48.4898
+margin_left = 284.596
+margin_top = 14.0
+margin_right = 380.596
+margin_bottom = 50.0
 custom_fonts/font = SubResource( 5 )
-text = "SCORE"
+text = "SCORE:"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="FrameLayer"]
+margin_left = 316.0
+margin_top = 50.0
+margin_right = 380.0
+margin_bottom = 86.0
+custom_fonts/font = SubResource( 5 )
+text = "HI:"
+align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Score" type="Label" parent="FrameLayer"]
-margin_left = 361.433
-margin_top = 49.4086
-margin_right = 441.433
-margin_bottom = 85.4086
+margin_left = 390.0
+margin_top = 14.0
+margin_right = 470.0
+margin_bottom = 50.0
+custom_fonts/font = SubResource( 5 )
+text = "00000"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HiScore" type="Label" parent="FrameLayer"]
+margin_left = 390.0
+margin_top = 50.0
+margin_right = 470.0
+margin_bottom = 86.0
 custom_fonts/font = SubResource( 5 )
 text = "00000"
 __meta__ = {
