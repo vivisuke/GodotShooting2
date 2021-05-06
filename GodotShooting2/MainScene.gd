@@ -360,7 +360,7 @@ func _input(event):
 				autoMoveX = event.position.x
 				print("autoMovex = ", autoMoveX)
 	elif event is InputEventKey && event.pressed:
-		if event.scancode == KEY_ESCAPE || paused:
+		if (!gameOver && event.scancode == KEY_ESCAPE) || paused:
 			paused = !paused
 			$PausedLayer/ColorRect.set_visible(paused)
 			$PausedLayer/TextureRect.set_visible(paused)
