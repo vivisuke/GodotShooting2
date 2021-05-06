@@ -185,6 +185,10 @@ func remove_enemy(ptr):		# 撃墜した敵機を削除
 func updateScoreLabel():
 	var txt = "%05d" % score
 	$FrameLayer/Score.text = txt
+	if score > hi_score:
+		hi_score = score
+		txt = "%05d" % hi_score
+		$FrameLayer/HiScore.text = txt
 func next_enemy(ix):
 	while nEnemies != 0:
 		ix += 1
