@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://images/frame.png" type="Texture" id=1]
 [ext_resource path="res://images/player1.png" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://sounds/explosion-1.mp3" type="AudioStream" id=8]
 [ext_resource path="res://PixelMplus12-Regular.ttf" type="DynamicFontData" id=9]
 [ext_resource path="res://images/title.png" type="Texture" id=10]
+[ext_resource path="res://images/paused.png" type="Texture" id=11]
 [ext_resource path="res://Explosion.tscn" type="PackedScene" id=12]
 [ext_resource path="res://images/ufo.png" type="Texture" id=13]
 [ext_resource path="res://PixelMplus12-Bold.ttf" type="DynamicFontData" id=14]
@@ -229,6 +230,26 @@ margin_right = 428.444
 margin_bottom = 684.64
 rect_scale = Vector2( 1.5, 1.5 )
 text = "Souece Code"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PausedLayer" type="CanvasLayer" parent="."]
+layer = 9
+
+[node name="ColorRect" type="ColorRect" parent="PausedLayer"]
+margin_right = 500.0
+margin_bottom = 800.0
+color = Color( 0, 0, 0, 0.752941 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="PausedLayer"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_scale = Vector2( 8, 8 )
+texture = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

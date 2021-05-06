@@ -29,6 +29,7 @@ var EnemyMissile = load("res://EnemyMissile.tscn")
 var Explosion = load("res://Explosion.tscn")
 
 var gameOver = false
+var paused = true
 var level = 0
 var invaded = false			# 敵機が最下段に到達
 #var gameOverDlg = null
@@ -229,10 +230,10 @@ func _ready():
 	updateHiScoreLabel()
 	#fireEnemyMissile()
 	gameOver = true
-	$DlgLayer/GameOverDlg.window_title = "GodotShooting"
-	$DlgLayer/GameOverDlg.dialog_text = "KEY OPERATION\n------------------------\n　'<-': Move Left\n　'->': Move Right\n　Space: Fire Missile"
-	$DlgLayer/GameOverDlg.popup_centered()
-	pass # Replace with function body.
+	#$DlgLayer/GameOverDlg.window_title = "GodotShooting"
+	#$DlgLayer/GameOverDlg.dialog_text = "KEY OPERATION\n------------------------\n　'<-': Move Left\n　'->': Move Right\n　Space: Fire Missile"
+	#$DlgLayer/GameOverDlg.popup_centered()
+	pass
 func fireMissile():		# 自機ミサイル発射
 	if missile == null:
 		UFOPntIX += 1
@@ -245,7 +246,7 @@ func fireMissile():		# 自機ミサイル発射
 		add_child(missile)
 		$AudioMissile.play()
 func animateEnemies():	# 敵アニメーション処理
-	if gameOver:
+	if gameOver || paused:
 		return
 	for y in range(ENEMY_N_VERT):
 		for x in range(ENEMY_N_HORZ):
@@ -258,7 +259,7 @@ func animateEnemies():	# 敵アニメーション処理
 				node.frame ^= 1
 				#print(node.frame)
 func moveEnemies():		# 敵移動処理
-	if gameOver:
+	if gameOver || paused:
 		return
 	if enemies[mv_ix] != null:
 		if move_down:
@@ -303,7 +304,7 @@ func processMissile():				# 自機ミサイル処理
 					level += 1
 					setup_enemies()
 func _physics_process(delta):
-	if gameOver:
+	if gameOver || paused:
 		return
 	if exploding:		# 爆発中
 		dur_expl += delta
@@ -358,6 +359,13 @@ func _input(event):
 				autoMoving = true
 				autoMoveX = event.position.x
 				print("autoMovex = ", autoMoveX)
+	elif event is InputEventKey && event.pressed:
+		if event.scancode == KEY_ESCAPE || paused:
+			paused = !paused
+			$PausedLayer/ColorRect.set_visible(paused)
+			$PausedLayer/TextureRect.set_visible(paused)
+			if !paused:
+				gameOver = false
 	pass
 func _on_LeftButton_button_down():
 	leftPressed = true
