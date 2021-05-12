@@ -214,10 +214,10 @@ __meta__ = {
 }
 
 [node name="TextureRect2" type="TextureRect" parent="FrameLayer"]
-margin_left = 52.0
-margin_top = 13.0
-margin_right = 212.0
-margin_bottom = 85.0
+margin_left = 54.2449
+margin_top = 2.14276
+margin_right = 214.245
+margin_bottom = 74.1428
 texture = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -230,6 +230,17 @@ margin_right = 428.444
 margin_bottom = 684.64
 rect_scale = Vector2( 1.5, 1.5 )
 text = "Source Code"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="version" type="Label" parent="FrameLayer"]
+margin_left = 103.0
+margin_top = 70.0
+margin_right = 163.0
+margin_bottom = 84.0
+rect_scale = Vector2( 1.2, 1.2 )
+text = "ver 0.002"
 __meta__ = {
 "_edit_use_anchors_": false
 }
