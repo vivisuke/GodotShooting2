@@ -51,10 +51,10 @@ var mv_ix = 0
 var move_down : bool = false
 var move_right : bool = false
 var en_collied : bool = false
-var enemies = []
-var nEnemies = 0
-var enemyMissiles = []
-var bunkers = []
+var enemies = []		# 敵エイリアン
+var nEnemies = 0		# 敵エイリアン数
+var enemyMissiles = []	# 敵ミサイル
+var bunkers = []		# バンカー（防御壁）
 var leftPressed : bool = false
 var rightPressed : bool = false
 
@@ -107,7 +107,7 @@ func setup_bunkers():
 		add_child(bkr)
 		bunkers.push_back(bkr)
 func fireEnemyMissile():
-	if gameOver || exploding || paused:
+	if gameOver || exploding || paused || !nEnemies:
 		return
 	var r = randi() % nEnemies		# ミサイルを発射する敵
 	var ix = 0
@@ -223,6 +223,7 @@ func next_enemy(ix):
 			break
 	return ix
 func _ready():
+	$NextLevel.hide()
 	randomize()
 	setup_enemies()
 	setup_bunkers()
@@ -301,8 +302,10 @@ func processMissile():				# 自機ミサイル処理
 				$AudioExplosion.play()		# 爆発音
 				updateScoreLabel()
 				if nEnemies == 0:		# 敵をすべて撃破した場合
-					level += 1
-					setup_enemies()
+					paused = true
+					$NextLevel.show()
+					##level += 1
+					##setup_enemies()
 func _physics_process(delta):
 	if gameOver || paused:
 		return
@@ -360,12 +363,17 @@ func _input(event):
 				autoMoveX = event.position.x
 				print("autoMovex = ", autoMoveX)
 	elif event is InputEventKey && event.pressed:
-		if (!gameOver && event.scancode == KEY_ESCAPE) || paused:
-			paused = !paused
-			$PausedLayer/ColorRect.set_visible(paused)
-			$PausedLayer/TextureRect.set_visible(paused)
-			if !paused:
-				gameOver = false
+		if ((!gameOver && event.scancode == KEY_ESCAPE) ||
+			(paused && (nEnemies == 0 && event.scancode == KEY_ENTER || nEnemies != 0))):
+				if nEnemies == 0:
+					$NextLevel.hide()
+					level += 1
+					setup_enemies()
+				paused = !paused
+				$PausedLayer/ColorRect.set_visible(paused)
+				$PausedLayer/TextureRect.set_visible(paused)
+				if !paused:
+					gameOver = false
 	pass
 func _on_LeftButton_button_down():
 	leftPressed = true
