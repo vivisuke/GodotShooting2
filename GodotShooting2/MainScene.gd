@@ -1,8 +1,8 @@
 extends Node2D
 
 const SCREEN_WIDTH = 500		# スクリーン幅
-const UFO_MOVE_UNIT = 3
-const MOVE_UNIT = 200
+const UFO_MOVE_UNIT = 150		# UFO 飛翔速度
+const MOVE_UNIT = 200			# 自機左右移動速度
 const FIGHTER_LR_SPC = 64
 const MIN_FIGHTER_X = FIGHTER_LR_SPC
 const MAX_FIGHTER_X = SCREEN_WIDTH - FIGHTER_LR_SPC
@@ -314,7 +314,7 @@ func _physics_process(delta):
 		else:
 			return
 	if $UFO.position.x > 0:		# UFO 出現中
-		$UFO.position.x -= UFO_MOVE_UNIT
+		$UFO.position.x -= UFO_MOVE_UNIT*delta
 		#$UFO/Sprite.frame ^= 1
 	#dur += delta
 	#if dur >= 1.0:

@@ -229,7 +229,7 @@ margin_top = 670.64
 margin_right = 428.444
 margin_bottom = 684.64
 rect_scale = Vector2( 1.5, 1.5 )
-text = "Souece Code"
+text = "Source Code"
 __meta__ = {
 "_edit_use_anchors_": false
 }
